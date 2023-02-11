@@ -6,18 +6,20 @@ class Network
   final String url;
   Network(this.url);
 
-  Future<dynamic> getJsonData() async
+  Future<dynamic> getXmlData() async
   {
-    http.Response response = await http.get(Uri.parse(url));
-    print(url);
-    if (response.statusCode == 200) {
-      String jsonData = response.body;
-      var myParsingData = jsonDecode(jsonData);
-      print(myParsingData["weather"][0]["id"]);
-      return myParsingData;
+    try{
+      http.Response response = await http.get(Uri.parse(url));
+      // print(url);
+      if (response.statusCode == 200) {
+        String jsonData = response.body;
+        var myParsingData = jsonDecode(jsonData);
+        print(myParsingData["realtimeArrivalList"][0]["subwayHeading"]);
+      }
     }
-    else
-      print("failed");
-    return;
+    catch(e)
+    {
+      print("fail");
+    }
   }
 }

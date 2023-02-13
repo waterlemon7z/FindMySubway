@@ -17,8 +17,7 @@ class _HomeScrState extends State<HomeScr> {
     OptionPage(),
   ];
 
-  void _onTapPageChange(int index)
-  {
+  void _onTapPageChange(int index) {
     setState(() {
       _curPage = index;
     });
@@ -27,24 +26,37 @@ class _HomeScrState extends State<HomeScr> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetPages[_curPage],
-      bottomNavigationBar: BottomNavigationBar(
-        items:  <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "Map",
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(color: Color(0xff353535), width: 0.3),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: "Star",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
-          ),
-        ],
-        currentIndex: _curPage,
-        selectedItemColor: Colors.orange,
-        onTap: _onTapPageChange,
+        ),
+        child: BottomNavigationBar(
+          // showSelectedLabels: false,
+          // showUnselectedLabels: false,
+          currentIndex: _curPage,
+          selectedItemColor: Color(0xffDD8D54),
+          unselectedItemColor: Color(0xff353535),
+          backgroundColor: Color(0xff000000),
+          onTap: _onTapPageChange,
+          elevation: 1,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: "Map",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: "Star",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: "Settings",
+            ),
+          ],
+        ),
       ),
     );
   }

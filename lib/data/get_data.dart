@@ -6,7 +6,7 @@ class Network
   final String url;
   Network(this.url);
 
-  Future<dynamic> getXmlData() async
+  Future<dynamic> getJsonData() async
   {
     try{
       http.Response response = await http.get(Uri.parse(url));
@@ -14,7 +14,7 @@ class Network
       if (response.statusCode == 200) {
         String jsonData = response.body;
         var myParsingData = jsonDecode(jsonData);
-        print(myParsingData["realtimeArrivalList"][0]["subwayHeading"]);
+        return myParsingData;
       }
     }
     catch(e)

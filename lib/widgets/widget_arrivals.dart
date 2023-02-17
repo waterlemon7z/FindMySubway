@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class Arrivals extends StatefulWidget {
   final Map lineIcons = {
-    "Bundang": IconBundang(),
+    "Bundang": Padding(padding: const EdgeInsets.all(8.0),child: IconBundang()),
   };
   final station;
   final List<List<List<String>>> upNdownTrain;

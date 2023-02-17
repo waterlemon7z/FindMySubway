@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:find_my_subway/pages/page_favorite.dart';
-import 'package:find_my_subway/pages/page_main.dart';
+import 'package:find_my_subway/pages/page_search.dart';
 import 'package:find_my_subway/pages/page_option.dart';
 
 class HomeScr extends StatefulWidget {
@@ -12,8 +12,8 @@ class _HomeScrState extends State<HomeScr> {
   @override
   int _curPage = 0;
   final List<Widget> _widgetPages = [
-    MainPage(),
     FavoritePage(),
+    MainPage(),
     OptionPage(),
   ];
 

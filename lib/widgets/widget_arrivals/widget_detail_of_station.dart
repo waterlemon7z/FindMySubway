@@ -22,9 +22,7 @@ class _StaDetailState extends State<StaDetail> {
               alignment: Alignment.topLeft,
               child: Column(
                 children: [
-                  for (int cur = 0;
-                      cur < widget.upNdownTrain[dir].length;
-                      cur++)
+                  for (int cur = 0; cur < widget.upNdownTrain[dir].length; cur++)
                     Row(
                       children: [
                         Text(
@@ -45,6 +43,15 @@ class _StaDetailState extends State<StaDetail> {
                         ),
                       ],
                     ),
+                  (widget.upNdownTrain[dir].length == 0
+                      ? Text(
+                          "정보 없음",
+                          style: TextStyle(
+                            color: Color(0xffffffff),
+                            fontSize: 15,
+                          ),
+                        )
+                      : SizedBox()),
                 ],
               ),
             ),

@@ -33,12 +33,13 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
   // await myDb.delete(UserData(id: 2, stName: "수원"));
   // await myDb.delete(UserData(id: 220, stName: "수원"));
   List<UserData>dataFromDb = await myDb.getDB();
-  List<String> addedStation = [];
+
+  List<List<dynamic>> addedStation = [];
+
   List<List<String>> tempUpTrain = [];
   List<List<String>> tempDownTrain = [];
   for(int i = 0; i < dataFromDb.length; i++) {
-    addedStation.add(dataFromDb[i].stName);
-    print(dataFromDb[i].id);
+    addedStation.add([dataFromDb[i].stName,dataFromDb[i].id]);
   }
 
 
@@ -46,11 +47,11 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
 
   String apikey = "49647777496c656d39304a6d717744";
   // String apikey = "sample";
-  for (String cur in addedStation) {
+  for (dynamic cur in addedStation) {
     Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
-        "json/realtimeStationArrival/0/10/$cur");
+        "json/realtimeStationArrival/0/10/${cur[0]}");
     var fetchData = await net.getJsonData();
-    SubData.stationList.add(cur);
+    SubData.stationList.add(UserData(id: cur[1], stName: cur[0]));
     if(fetchData["status"] == 500){
       SubData.upTrainList.add([...tempUpTrain]);
       SubData.downTrainList.add([...tempDownTrain]);
@@ -72,19 +73,18 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
     tempUpTrain.clear();
     tempDownTrain.clear();
   }
-  print(SubData);
   return SubData;
 }
 
 Future<Map<String, List<String>>> getAllStationName() async {
   Map<String, List<String>> stationInfo = {};
   // String apikey = "49647777496c656d39304a6d717744";
-  // // String apikey = "sample";
+  // String apikey = "sample";
   // Network net = Network("http://openapi.seoul.go.kr:8088/$apikey/json/SearchSTNBySubwayLineInfo/1/100/ / /subwayData.json");
   // var fetchData = await net.getJsonData();
 
   String jsonString = await rootBundle.loadString('assets/subwayData.json');
-  final fetchData = json.decode(jsonString);
+  var fetchData = json.decode(jsonString);
   for (int i = 0; i < fetchData["SearchSTNBySubwayLineInfo"]["row"].length; i++) {
     stationInfo[fetchData["SearchSTNBySubwayLineInfo"]["row"][i]["FR_CODE"]] = [
       fetchData["SearchSTNBySubwayLineInfo"]["row"][i]["STATION_NM"],
@@ -93,6 +93,5 @@ Future<Map<String, List<String>>> getAllStationName() async {
     ];
   }
   stationInfo = Map.fromEntries(stationInfo.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
-  // print(stationInfo);
   return stationInfo;
 }

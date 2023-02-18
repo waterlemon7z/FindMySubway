@@ -1,19 +1,29 @@
+import 'package:find_my_subway/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:find_my_subway/home_screen_navi.dart';
 
-void main() async{
+void main()  {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "MySubway",
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: HomeScr(),
+  ThemeColors themeDatas = new ThemeColors();
+
+  Widget build(BuildContext ctx) {
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (_, ThemeMode currentMode, __) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "MySubway",
+          theme: themeDatas.light,
+          darkTheme: themeDatas.dark,
+          themeMode: currentMode,
+          home: HomeScr(),
+        );
+      },
     );
   }
 }

@@ -28,7 +28,6 @@ class _StaDetailState extends State<StaDetail> {
                         Text(
                           "${widget.upNdownTrain[dir][cur][0]}",
                           style: TextStyle(
-                            color: Color(0xffffffff),
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
@@ -36,8 +35,6 @@ class _StaDetailState extends State<StaDetail> {
                         Text(
                           "행 ${widget.upNdownTrain[dir][cur][1]}",
                           style: TextStyle(
-                            color: Color(0xffffffff),
-                            // fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
@@ -47,7 +44,6 @@ class _StaDetailState extends State<StaDetail> {
                       ? Text(
                           "정보 없음",
                           style: TextStyle(
-                            color: Color(0xffffffff),
                             fontSize: 15,
                           ),
                         )

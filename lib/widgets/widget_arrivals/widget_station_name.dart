@@ -13,7 +13,6 @@ class StationName extends StatelessWidget {
         stName,
         textAlign: TextAlign.left,
         style: TextStyle(
-          color: Color(0xffffffff),
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),

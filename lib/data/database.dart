@@ -82,4 +82,11 @@ class UsrDataProvider {
       whereArgs: [data.id],
     );
   }
+  Future<void> reset() async {
+    List list = await getDB();
+    for(int index = 0; index < list.length; index++)
+      {
+        await delete(list[index]);
+      }
+  }
 }

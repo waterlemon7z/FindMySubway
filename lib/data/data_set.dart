@@ -1,5 +1,7 @@
+import 'package:find_my_subway/data/database.dart';
+
 class SubwayListDataSet {
-  List<String> stationList = [];
+  List<UserData> stationList = [];
   List<List<List<String>>> upTrainList = [];
   List<List<List<String>>> downTrainList = [];
 }

@@ -9,10 +9,10 @@ import '../widgets/widget_showToast.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
-  State<FavoritePage> createState() => _FavoritePageState();
+  State<FavoritePage> createState() => FavoritePageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClientMixin<FavoritePage> {
+class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClientMixin<FavoritePage> {
   @override
   bool get wantKeepAlive => true;
   late Future infoList;
@@ -21,13 +21,11 @@ class _FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClie
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SearchAppbar(titleName: "즐겨찾는 지하철 역", myDb: myDb,),
-      // appBar: SearchAppBar(addedStation: addedStation),
-      backgroundColor: Color(0xff000000),
       floatingActionButton: FloatingActionButton.small(
         onPressed: () {
           setState(() {
             infoList =  getSubwayInfo(myDb);
-            showToast("새로고침");
+            showToast("새로고침", true);
           });
         },
         child: Icon(Icons.refresh),
@@ -54,7 +52,6 @@ class _FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClie
                   children: const [
                     Text(
                       '저장된 역이 없습니다.\n우상단의 검색을 통해 추가할 수 있습니다.',
-                      style: TextStyle(color: Color(0xffffffff)),
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -68,8 +65,9 @@ class _FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClie
                   children: [
                     for (int index = 0; index < snapshot.data.stationList.length; index++)
                       Arrivals(
-                        station: snapshot.data.stationList[index],
+                        udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
                         upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
+                        myDb: myDb,
                       ),
                   ],
                 ),

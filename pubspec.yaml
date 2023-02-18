@@ -43,6 +43,8 @@ dependencies:
   search_page: ^2.3.0 #https://pub.dev/packages/search_page/
   sqflite: ^2.2.4+1
   path: ^1.8.3
+  provider: ^6.0.5
+  shared_preferences: ^2.0.17
 
 dev_dependencies:
   flutter_test:

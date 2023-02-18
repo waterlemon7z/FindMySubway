@@ -1,7 +1,9 @@
+import 'package:find_my_subway/main.dart';
 import 'package:flutter/material.dart';
 import 'package:find_my_subway/pages/page_favorite.dart';
 import 'package:find_my_subway/pages/page_search.dart';
 import 'package:find_my_subway/pages/page_option.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScr extends StatefulWidget {
   @override
@@ -37,15 +39,12 @@ class _HomeScrState extends State<HomeScr> {
           // showSelectedLabels: false,
           // showUnselectedLabels: false,
           currentIndex: _curPage,
-          selectedItemColor: Color(0xffDD8D54),
-          unselectedItemColor: Color(0xff353535),
-          backgroundColor: Color(0xff000000),
           onTap: _onTapPageChange,
           elevation: 1,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: "Map",
+              icon: Icon(Icons.star),
+              label: "Star",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
@@ -59,5 +58,24 @@ class _HomeScrState extends State<HomeScr> {
         ),
       ),
     );
+  }
+  @override
+  void initState() {
+    super.initState();
+    loadTheme();
+
+  }
+  void loadTheme()async
+  {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setInt("Theme", 1);
+    if(prefs.getInt("Theme") == 0)
+      {
+        MyApp.themeNotifier.value = ThemeMode.light;
+      }
+    else
+      {
+        MyApp.themeNotifier.value = ThemeMode.dark;
+      }
   }
 }

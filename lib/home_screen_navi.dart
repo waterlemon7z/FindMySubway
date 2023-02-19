@@ -1,7 +1,6 @@
 import 'package:find_my_subway/main.dart';
 import 'package:flutter/material.dart';
 import 'package:find_my_subway/pages/page_favorite.dart';
-import 'package:find_my_subway/pages/page_search.dart';
 import 'package:find_my_subway/pages/page_option.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +14,7 @@ class _HomeScrState extends State<HomeScr> {
   int _curPage = 0;
   final List<Widget> _widgetPages = [
     FavoritePage(),
-    MainPage(),
+    // MainPage(),
     OptionPage(),
   ];
 
@@ -47,10 +46,6 @@ class _HomeScrState extends State<HomeScr> {
               label: "Star",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: "Star",
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: "Settings",
             ),
@@ -63,7 +58,6 @@ class _HomeScrState extends State<HomeScr> {
   void initState() {
     super.initState();
     loadTheme();
-
   }
   void loadTheme()async
   {

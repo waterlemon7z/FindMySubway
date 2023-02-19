@@ -5,6 +5,7 @@ import 'package:find_my_subway/widgets/widget_appbar.dart';
 import 'package:find_my_subway/widgets/widget_arrivals.dart';
 import 'package:flutter/rendering.dart';
 
+import '../data/data_location.dart';
 import '../widgets/widget_showToast.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -21,14 +22,29 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SearchAppbar(titleName: "즐겨찾는 지하철 역", myDb: myDb,),
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          setState(() {
-            infoList =  getSubwayInfo(myDb);
-            showToast("새로고침", true);
-          });
-        },
-        child: Icon(Icons.refresh),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.small(
+            child: Icon(Icons.location_on_outlined),
+            onPressed: () async{
+              await find(myDb);
+              setState(()  {
+                infoList =  getSubwayInfo(myDb);
+                // showToast("새로고침", true);
+              });
+            },
+          ),
+          FloatingActionButton.small(
+            child: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                infoList =  getSubwayInfo(myDb);
+                showToast("새로고침", true);
+              });
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: infoList,

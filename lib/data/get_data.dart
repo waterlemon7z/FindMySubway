@@ -3,7 +3,6 @@ import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/database.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
 import 'data_msg_parse.dart';
 
 class Network {
@@ -45,7 +44,7 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
 
   var SubData = new SubwayListDataSet();
 
-  String apikey = "49647777496c656d39304a6d717744";
+  String apikey = "add your own api";
   // String apikey = "sample";
   for (dynamic cur in addedStation) {
     Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
@@ -78,7 +77,6 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
 
 Future<Map<String, List<String>>> getAllStationName() async {
   Map<String, List<String>> stationInfo = {};
-  // String apikey = "49647777496c656d39304a6d717744";
   // String apikey = "sample";
   // Network net = Network("http://openapi.seoul.go.kr:8088/$apikey/json/SearchSTNBySubwayLineInfo/1/100/ / /subwayData.json");
   // var fetchData = await net.getJsonData();

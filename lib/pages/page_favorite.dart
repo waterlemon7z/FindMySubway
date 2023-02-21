@@ -26,6 +26,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.small(
+            heroTag: "locate",
             child: Icon(Icons.location_on_outlined),
             onPressed: () async{
               await find(myDb);
@@ -36,6 +37,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             },
           ),
           FloatingActionButton.small(
+            heroTag: "refresh",
             child: Icon(Icons.refresh),
             onPressed: () {
               setState(() {

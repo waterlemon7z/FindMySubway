@@ -9,7 +9,6 @@ class SubwayListDataSet {
   List<EachStation> stDownSituation = [];
   int vis = 1;
 }
-
 class StationInform {
   late String stCode;
   late String kName;

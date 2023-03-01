@@ -5,7 +5,6 @@ import 'package:find_my_subway/home_screen_navi.dart';
 void main()  {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   static final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
   @override

@@ -37,7 +37,6 @@ class ThemeColors {
     listTileTheme: ListTileThemeData(
       textColor: Color(0xffffffff),
     )
-
   );
 
   final light = ThemeData(

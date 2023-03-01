@@ -13,7 +13,6 @@ String parseString(String original){
     rst = original;
   return rst;
 }
-
 String parseAheadString(String original)
 {
   String rst;

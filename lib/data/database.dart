@@ -15,7 +15,6 @@ class UserData {
     };
   }
 }
-
 class UsrDataProvider {
   late Database _database;
   final String tableName = "Userdata";

@@ -1,6 +1,7 @@
 import 'package:find_my_subway/data/data_set.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
 class SubwayLocationInfo extends StatelessWidget {
   @override
   late final List<StationInform> stData;

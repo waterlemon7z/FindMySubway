@@ -105,7 +105,6 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
 
   return SubData;
 }
-
 Future<Map<String, List<String>>> getAllStationName() async {
   Map<String, List<String>> stationInfo = {};
   // String apikey = "sample";

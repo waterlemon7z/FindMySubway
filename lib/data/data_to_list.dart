@@ -1,5 +1,4 @@
 import 'package:find_my_subway/data/data_set.dart';
-
 List<StationInform> mapData2List(Map<String, List<String>> datas)
 {
   List<StationInform> rst = [];

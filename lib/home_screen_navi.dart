@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:find_my_subway/pages/page_favorite.dart';
 import 'package:find_my_subway/pages/page_option.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class HomeScr extends StatefulWidget {
   @override
   State<HomeScr> createState() => _HomeScrState();

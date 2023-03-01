@@ -8,7 +8,6 @@ class StaDetail extends StatefulWidget {
 
   State<StaDetail> createState() => _StaDetailState();
 }
-
 class _StaDetailState extends State<StaDetail> {
   @override
   Widget build(BuildContext context) {

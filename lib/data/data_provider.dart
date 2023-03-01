@@ -1,6 +1,5 @@
 import 'package:find_my_subway/theme.dart';
 import 'package:flutter/material.dart';
-
 class ThemeColor with ChangeNotifier
 {
   ThemeColors themeDatas = new ThemeColors();

@@ -6,7 +6,6 @@ import 'package:find_my_subway/widgets/widget_arrivals/widget_line_icon.dart';
 import 'package:find_my_subway/widgets/widget_arrivals/widget_station_name.dart';
 import 'package:find_my_subway/widgets/widget_showToast.dart';
 import 'package:flutter/material.dart';
-
 class Arrivals extends StatefulWidget {
   final Map lineIcons = {
     "Bundang": Padding(padding: const EdgeInsets.all(8.0), child: IconBundang()),

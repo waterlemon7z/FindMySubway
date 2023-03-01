@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:find_my_subway/data/get_data.dart';
 import 'package:flutter/rendering.dart';
 import 'package:search_page/search_page.dart';
-
 class Appbars extends StatelessWidget with PreferredSizeWidget {
   final String titleName;
 

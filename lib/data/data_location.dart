@@ -7,9 +7,6 @@ import 'package:find_my_subway/data/search_data_verify.dart';
 import 'package:find_my_subway/widgets/widget_showToast.dart';
 import 'package:geolocator/geolocator.dart';
 
-// import 'package:find_my_subway/data/get_data.dart';
-// import 'dart:developer ';
-
 class Location {
   var x;
   var y;

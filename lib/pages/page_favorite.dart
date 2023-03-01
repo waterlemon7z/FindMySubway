@@ -1,4 +1,6 @@
+import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/database.dart';
+import 'package:find_my_subway/widgets/widget_arrivals/widget_location.dart';
 import 'package:flutter/material.dart';
 import 'package:find_my_subway/data/get_data.dart';
 import 'package:find_my_subway/widgets/widget_appbar.dart';
@@ -17,21 +19,25 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   @override
   bool get wantKeepAlive => true;
   late Future infoList;
-
+  late Future<List<StationInform>> stationData;
   UsrDataProvider myDb = new UsrDataProvider();
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchAppbar(titleName: "즐겨찾는 지하철 역", myDb: myDb,),
+      appBar: SearchAppbar(
+        titleName: "즐겨찾는 지하철 역",
+        myDb: myDb,
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.small(
             heroTag: "locate",
             child: Icon(Icons.location_on_outlined),
-            onPressed: () async{
+            onPressed: () async {
               await find(myDb);
-              setState(()  {
-                infoList =  getSubwayInfo(myDb);
+              setState(() {
+                infoList = getSubwayInfo(myDb);
                 // showToast("새로고침", true);
               });
             },
@@ -41,7 +47,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             child: Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                infoList =  getSubwayInfo(myDb);
+                infoList = getSubwayInfo(myDb);
                 showToast("새로고침", true);
               });
             },
@@ -75,17 +81,22 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                   ],
                 ),
               );
-            }
-            else
-            {
+            } else {
               return SingleChildScrollView(
                 child: Column(
                   children: [
                     for (int index = 0; index < snapshot.data.stationList.length; index++)
-                      Arrivals(
-                        udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
-                        upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
-                        myDb: myDb,
+                      Column(
+                        children: [
+                          Arrivals(
+                            udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
+                            upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
+                            myDb: myDb,
+                          ),
+                          Visibility(child: SubwayLocationInfo(snapshot.data.stData, snapshot.data.stationList[index].id, snapshot.data.stUpSituation, snapshot.data.stDownSituation,),
+                          visible: snapshot.data.vis == 1 ? true : false,
+                          )
+                           ],
                       ),
                   ],
                 ),

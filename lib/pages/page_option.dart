@@ -39,6 +39,23 @@ class _OptionPageState extends State<OptionPage> {
             },
           ),
           ListTile(
+            title: Text("지하철 현제 위치 표시 여부"),
+            trailing: Text("보이기 <-> 숨기기"),
+            onTap: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+
+              if(prefs.getInt("Location") == 0)
+              {
+                await prefs.setInt("Location", 1);
+              }
+              else
+              {
+                await prefs.setInt("Location", 0);
+
+              }
+            },
+          ),
+          ListTile(
             title: Text("데이터 초기화"),
             // trailing: Text("라이트테마 <-> 다크테마"),
             onTap: (){

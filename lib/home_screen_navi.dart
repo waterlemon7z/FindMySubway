@@ -62,6 +62,7 @@ class _HomeScrState extends State<HomeScr> {
   void loadTheme()async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // await prefs.setInt("Location", 1);
     // prefs.setInt("Theme", 1);
     if(prefs.getInt("Theme") == 0)
       {

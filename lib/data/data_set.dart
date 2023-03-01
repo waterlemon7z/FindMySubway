@@ -4,6 +4,10 @@ class SubwayListDataSet {
   List<UserData> stationList = [];
   List<List<List<String>>> upTrainList = [];
   List<List<List<String>>> downTrainList = [];
+  List<StationInform> stData = [];
+  List<EachStation> stUpSituation = [];
+  List<EachStation> stDownSituation = [];
+  int vis = 1;
 }
 
 class StationInform {
@@ -13,4 +17,11 @@ class StationInform {
   late String jName;
 
   StationInform({required this.stCode, required this.kName, required this.eName, required this.jName});
+}
+
+class EachStation{
+  bool exP = false;
+  String arrival = "-1";
+  EachStation({exP,arrival});
+
 }

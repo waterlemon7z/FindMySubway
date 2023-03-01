@@ -6,7 +6,6 @@ import 'package:find_my_subway/data/get_data.dart';
 import 'package:find_my_subway/widgets/widget_appbar.dart';
 import 'package:find_my_subway/widgets/widget_arrivals.dart';
 import 'package:flutter/rendering.dart';
-
 import '../data/data_location.dart';
 import '../widgets/widget_showToast.dart';
 

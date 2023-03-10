@@ -15,7 +15,8 @@ List<StationInform> mapData2List(Map<String, List<String>> datas)
   
   for(int i = 0; i < tempKey.length; i++)
     {
-      rst.add(StationInform(stCode: tempKey[i], kName: tempVal[i][0], eName: tempVal[i][1], jName: tempVal[i][2]));
+      rst.add(StationInform(tempKey[i], tempVal[i][0], tempVal[i][1], tempVal[i][2]));
+      // rst.add(StationInform(stCode: tempKey[i], kName: tempVal[i][0], eName: tempVal[i][1], jName: tempVal[i][2]));
     }
   return rst;
 }

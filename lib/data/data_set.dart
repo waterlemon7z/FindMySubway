@@ -9,18 +9,24 @@ class SubwayListDataSet {
   List<EachStation> stDownSituation = [];
   int vis = 1;
 }
+
 class StationInform {
-  late String stCode;
-  late String kName;
-  late String eName;
-  late String jName;
+  StationInform(stCode, kName, eName, jName)
+  {
+    this.stCode = stCode;
+    this.kName = kName;
+     this.eName = eName;
+      this.jName = jName;
+  }
+  String stCode = '';
+  String kName = '';
+  String eName = '';
+  String jName = '';
+ }
 
-  StationInform({required this.stCode, required this.kName, required this.eName, required this.jName});
-}
-
-class EachStation{
+class EachStation {
   bool exP = false;
   String arrival = "-1";
-  EachStation({exP,arrival});
 
+  EachStation({exP, arrival});
 }

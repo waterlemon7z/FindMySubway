@@ -44,7 +44,7 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
 
   var SubData = new SubwayListDataSet();
   SubData.stData = await mapData2List(await getAllStationName());
-  String apikey = "put your own key";
+  String apikey = "49647777496c656d39304a6d717744";
   for (dynamic cur in addedStation) {
     Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
         "json/realtimeStationArrival/0/10/${cur[0]}");
@@ -102,7 +102,7 @@ Future<SubwayListDataSet> getSubwayInfo(UsrDataProvider myDb) async {
   }
   SharedPreferences prefs = await SharedPreferences.getInstance();
   SubData.vis = (await prefs.getInt("Location"))!;
-
+  SubData.pref = await SharedPreferences.getInstance();
   return SubData;
 }
 Future<Map<String, List<String>>> getAllStationName() async {

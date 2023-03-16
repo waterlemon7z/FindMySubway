@@ -1,4 +1,5 @@
 import 'package:find_my_subway/data/database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubwayListDataSet {
   List<UserData> stationList = [];
@@ -8,21 +9,22 @@ class SubwayListDataSet {
   List<EachStation> stUpSituation = [];
   List<EachStation> stDownSituation = [];
   int vis = 1;
+  late SharedPreferences pref;
 }
 
 class StationInform {
-  StationInform(stCode, kName, eName, jName)
-  {
+  StationInform(stCode, kName, eName, jName) {
     this.stCode = stCode;
     this.kName = kName;
-     this.eName = eName;
-      this.jName = jName;
+    this.eName = eName;
+    this.jName = jName;
   }
+
   String stCode = '';
   String kName = '';
   String eName = '';
   String jName = '';
- }
+}
 
 class EachStation {
   bool exP = false;

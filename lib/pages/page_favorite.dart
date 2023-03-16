@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/database.dart';
 import 'package:find_my_subway/widgets/widget_arrivals/widget_location.dart';
@@ -6,6 +8,7 @@ import 'package:find_my_subway/data/get_data.dart';
 import 'package:find_my_subway/widgets/widget_appbar.dart';
 import 'package:find_my_subway/widgets/widget_arrivals.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/data_location.dart';
 import '../widgets/widget_showToast.dart';
 class FavoritePage extends StatefulWidget {
@@ -19,6 +22,29 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   late Future infoList;
   late Future<List<StationInform>> stationData;
   UsrDataProvider myDb = new UsrDataProvider();
+  late Timer _timer;
+  late SharedPreferences prefs;
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+  @override
+  void initState() {
+    super.initState();
+    infoList = getSubwayInfo(myDb);
+    myDb.initDB();
+    _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
+  }
+  void autoRefresh()
+  {
+      setState(() {
+        if(prefs.getInt("AutoTimer") == 1) {
+          infoList = getSubwayInfo(myDb);
+          showToast("새로고침", true);
+        }
+      });
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +71,10 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             child: Icon(Icons.refresh),
             onPressed: () {
               setState(() {
+                _timer.cancel();
                 infoList = getSubwayInfo(myDb);
                 showToast("새로고침", true);
+                _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
               });
             },
           ),
@@ -80,6 +108,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                 ),
               );
             } else {
+                prefs = snapshot.data.pref;
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -93,7 +122,11 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                           ),
                           Visibility(child: SubwayLocationInfo(snapshot.data.stData, snapshot.data.stationList[index].id, snapshot.data.stUpSituation, snapshot.data.stDownSituation,),
                           visible: snapshot.data.vis == 1 ? true : false,
-                          )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                            child: Divider(thickness: 1,),
+                          ),
                            ],
                       ),
                   ],
@@ -104,11 +137,5 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
         },
       ),
     );
-  }
-
-  void initState() {
-    super.initState();
-    infoList = getSubwayInfo(myDb);
-    myDb.initDB();
   }
 }

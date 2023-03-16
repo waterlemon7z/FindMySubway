@@ -42,7 +42,7 @@ class _HomeScrState extends State<HomeScr> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              label: "Star",
+              label: "Favorites",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
@@ -61,8 +61,14 @@ class _HomeScrState extends State<HomeScr> {
   void loadTheme()async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setInt("Location", 1);
-    // prefs.setInt("Theme", 1);
+    /*Initializing for new user*/
+    if(!prefs.containsKey("Theme"))
+      prefs.setInt("Theme", 1);
+    if(!prefs.containsKey("Location"))
+      prefs.setInt("Location", 1);
+    if(!prefs.containsKey("AutoTimer"))
+      prefs.setInt("AutoTimer", 1);
+
     if(prefs.getInt("Theme") == 0)
       {
         MyApp.themeNotifier.value = ThemeMode.light;

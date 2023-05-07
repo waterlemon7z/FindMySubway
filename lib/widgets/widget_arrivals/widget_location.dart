@@ -1,4 +1,5 @@
 import 'package:find_my_subway/data/data_set.dart';
+import 'package:find_my_subway/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -8,6 +9,7 @@ class SubwayLocationInfo extends StatelessWidget {
   late int curSt;
   late final List<EachStation> stUpStatus;
   late final List<EachStation> stDownStatus;
+  String subwayIcon = MyApp.themeNotifier.value == ThemeMode.light ? "subway" : "subway_white";
 
   SubwayLocationInfo(List<StationInform> stData, int curSt,  List<EachStation>stUpStatus,  List<EachStation> stDownStatus)
   {
@@ -39,7 +41,7 @@ class SubwayLocationInfo extends StatelessWidget {
                       children: [
                         Visibility(
                           child: Image.asset(
-                            "assets/subway.png",
+                            "assets/$subwayIcon.png",
                             width: MediaQuery.of(context).size.width / 11,
                           ),
                           visible: curSt + i < 0 || curSt + i > 62 ? false : (stUpStatus[curSt + i].arrival == "0" ? true : false), // 접근
@@ -49,7 +51,7 @@ class SubwayLocationInfo extends StatelessWidget {
                         ),
                         Visibility(
                           child: Image.asset(
-                            "assets/subway.png",
+                            "assets/$subwayIcon.png",
                             width: MediaQuery.of(context).size.width / 11,
                           ),
                           visible: curSt + i < 0 || curSt + i > 62 ? false : (stUpStatus[curSt + i].arrival == "1" ? true : false), // 도착
@@ -103,7 +105,7 @@ class SubwayLocationInfo extends StatelessWidget {
                             alignment: Alignment.center,
                             transform: Matrix4.rotationY(math.pi),
                             child: Image.asset(
-                              "assets/subway.png",
+                              "assets/$subwayIcon.png",
                               width: MediaQuery.of(context).size.width / 11,
                             ),
                           ),
@@ -117,7 +119,7 @@ class SubwayLocationInfo extends StatelessWidget {
                             alignment: Alignment.center,
                             transform: Matrix4.rotationY(math.pi),
                             child: Image.asset(
-                              "assets/subway.png",
+                              "assets/$subwayIcon.png",
                               width: MediaQuery.of(context).size.width / 11,
                             ),
                           ),

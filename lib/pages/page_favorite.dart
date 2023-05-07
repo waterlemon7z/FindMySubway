@@ -11,6 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/data_location.dart';
 import '../widgets/widget_showToast.dart';
+
 class FavoritePage extends StatefulWidget {
   @override
   State<FavoritePage> createState() => FavoritePageState();
@@ -24,11 +25,13 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   UsrDataProvider myDb = new UsrDataProvider();
   late Timer _timer;
   late SharedPreferences prefs;
+
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
   }
+
   @override
   void initState() {
     super.initState();
@@ -36,14 +39,14 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
     myDb.initDB();
     _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
   }
-  void autoRefresh()
-  {
-      setState(() {
-        if(prefs.getInt("AutoTimer") == 1) {
-          infoList = getSubwayInfo(myDb);
-          showToast("새로고침", true);
-        }
-      });
+
+  void autoRefresh() {
+    setState(() {
+      if (prefs.getInt("AutoTimer") == 1) {
+        infoList = getSubwayInfo(myDb);
+        showToast("새로고침", true);
+      }
+    });
   }
 
   Widget build(BuildContext context) {
@@ -87,7 +90,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             return Center(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.cyanAccent),
             ));
           } else if (snapshot.hasError) {
             return Text(
@@ -108,29 +111,83 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                 ),
               );
             } else {
-                prefs = snapshot.data.pref;
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    for (int index = 0; index < snapshot.data.stationList.length; index++)
-                      Column(
+              prefs = snapshot.data.pref;
+              if(prefs.getInt("AutoTimer") == 0)
+                _timer.cancel();
+              return ListView.builder(
+                itemCount: snapshot.data.stationList.length,
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: UniqueKey(),
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Arrivals(
-                            udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
-                            upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
-                            myDb: myDb,
+                          SizedBox(),
+                          SizedBox(),
+                          SizedBox(),
+                          SizedBox(),
+                          Icon(
+                            Icons.delete_forever,
+                            color: Color(0xffffffff),
                           ),
-                          Visibility(child: SubwayLocationInfo(snapshot.data.stData, snapshot.data.stationList[index].id, snapshot.data.stUpSituation, snapshot.data.stDownSituation,),
-                          visible: snapshot.data.vis == 1 ? true : false,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                            child: Divider(thickness: 1,),
-                          ),
-                           ],
+                        ],
                       ),
-                  ],
-                ),
+                    ),
+                    background:  Container(
+                      color: Colors.red,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.delete_forever,
+                            color: Color(0xffffffff),
+                          ),
+                          SizedBox(),
+                          SizedBox(),
+                          SizedBox(),
+                          SizedBox(),
+                        ],
+                      ),
+                    ),
+                    onDismissed: (direction) {
+                      myDb.delete(UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName));
+                      setState(() {
+                        infoList = getSubwayInfo(myDb);
+                        snapshot.data.stationList.removeAt(index);
+                      });
+                      showToast("해당 역이 삭제되었습니다", true);
+                    },
+                    child: Column(
+                      children: [
+                        Arrivals(
+                          udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
+                          upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
+                          myDb: myDb,
+                          staInfo: snapshot.data.staInfo,
+                          comingTrainNo: snapshot.data.comingTrainNo[index],
+                          prefs: prefs,
+                        ),
+                        Visibility(
+                          child: SubwayLocationInfo(
+                            snapshot.data.stData,
+                            snapshot.data.stationList[index].id,
+                            snapshot.data.stUpSituation,
+                            snapshot.data.stDownSituation,
+                          ),
+                          visible: snapshot.data.vis == 1 ? true : false,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               );
             }
           }

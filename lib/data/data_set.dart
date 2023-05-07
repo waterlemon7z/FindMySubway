@@ -10,6 +10,8 @@ class SubwayListDataSet {
   List<EachStation> stDownSituation = [];
   int vis = 1;
   late SharedPreferences pref;
+  late Map<String, List<String>> staInfo;
+  List<List<int>> comingTrainNo = [];
 }
 
 class StationInform {
@@ -31,4 +33,21 @@ class EachStation {
   String arrival = "-1";
 
   EachStation({exP, arrival});
+}
+
+class FriendData {
+  late String name;
+  late String station;
+  late int trainNo;
+}
+
+class FriendPageData{
+  late SharedPreferences prefs;
+  late bool visible;
+  late int autoTimer = 1;
+  late int uid;
+  late String cur;
+  late int curTrainNo;
+  List<String> friendList = [];
+  List<FriendData> friendData = [];
 }

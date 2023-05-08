@@ -9116,7 +9116,7 @@ o.push(new A.xZ())}s=10
 return A.H(new A.tv(u.P).m4(),$async$f0)
 case 10:c=b0
 m=J.a9(c)
-if(!J.e(m.h(c,"status"),500))for(n=0;n<J.bR(m.h(c,"realtimePositionList"));++n){a=J.ad(m.h(c,"realtimePositionList"),n)
+if(J.e(J.ad(m.h(c,"errorMessage"),"status"),200)||!J.e(m.h(c,"status"),500))for(n=0;n<J.bR(m.h(c,"realtimePositionList"));++n){a=J.ad(m.h(c,"realtimePositionList"),n)
 l=J.a9(a)
 if(J.e(l.h(a,"updnLine"),"0")){a3[A.ek(J.axI(l.h(a,"statnId"),7),null)-209].b=l.h(a,"trainSttus")
 J.e(l.h(a,"directAt"),"0")}else{o[A.ek(J.axI(l.h(a,"statnId"),7),null)-209].b=l.h(a,"trainSttus")

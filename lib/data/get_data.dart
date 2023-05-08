@@ -52,7 +52,7 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
   String apikey = "49647777496c656d39304a6d717744";
   // String apikey = "sample";
   for (dynamic cur in addedStation) {
-    Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
+    Network net = Network("//swopenapi.seoul.go.kr/api/subway/$apikey/"
         "json/realtimeStationArrival/0/10/${cur[0]}");
     var fetchData = await net.getJsonData();
     SubData.stationList.add(UserData(id: cur[1], stName: cur[0]));
@@ -91,7 +91,7 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
     //   }
   }
 
-  Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
+  Network net = Network("//swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
   var fetchData = await net.getJsonData();
   if (fetchData["errorMessage"]["status"] == 200 || fetchData["status"] != 500)
     for (int i = 0; i < fetchData["realtimePositionList"].length; i++) {
@@ -139,7 +139,7 @@ Future<String> GetCurrentLoc(int trainNo, List<FriendData> arr) async {
   String rst = 'None';
   String apikey = "49647777496c656d39304a6d717744";
   // String apikey = "sample";
-  Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
+  Network net = Network("//swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
   var fetchData = await net.getJsonData();
   if (trainNo == -1) {
     rst = "지하철 탑승중이 아닙니다.";

@@ -40,7 +40,6 @@ bool verifyWebsite(String str) {
 Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
   List<UserData> dataFromDb = await mainHive.getUserDataFromHive();
   List<List<dynamic>> addedStation = [];
-
   List<List<String>> tempUpTrain = [];
   List<List<String>> tempDownTrain = [];
   List<int> tempNextTrain = [-1, -1];
@@ -50,13 +49,14 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
 
   var SubData = new SubwayListDataSet();
   SubData.stData = await mapData2List(await getAllStationName());
-  String apikey = "sample";
+  String apikey = "49647777496c656d39304a6d717744";
+  // String apikey = "sample";
   for (dynamic cur in addedStation) {
     Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
         "json/realtimeStationArrival/0/10/${cur[0]}");
     var fetchData = await net.getJsonData();
     SubData.stationList.add(UserData(id: cur[1], stName: cur[0]));
-    if (fetchData["status"] != 500)
+    if (fetchData["errorMessage"]["status"] == 200 || fetchData["status"] != 500)
       for (int i = 0; i < fetchData["realtimeArrivalList"].length; i++) {
         var target = fetchData["realtimeArrivalList"][i];
         if (target["subwayId"] == "1075") {
@@ -93,7 +93,7 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
 
   Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
   var fetchData = await net.getJsonData();
-  if (fetchData["status"] != 500)
+  if (fetchData["errorMessage"]["status"] == 200 || fetchData["status"] != 500)
     for (int i = 0; i < fetchData["realtimePositionList"].length; i++) {
       var target = fetchData["realtimePositionList"][i];
       if (target["updnLine"] == "0") {
@@ -117,7 +117,7 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
 
 Future<Map<String, List<String>>> getAllStationName() async {
   Map<String, List<String>> stationInfo = {};
-  Network net = Network("https://raw.githubusercontent.com/waterlemon7z/subway/main/assets/assets/subwayData.json");
+  Network net = Network("https://raw.githubusercontent.com/waterlemon7z/FindMySubway/main/assets/subwayData.json");
   var fetchData = await net.getJsonData();
   // String jsonString = await rootBundle.loadString('assets/subwayData.json');
   // var fetchData = json.decode(jsonString);
@@ -137,13 +137,10 @@ Future<Map<String, List<String>>> getAllStationName() async {
 
 Future<String> GetCurrentLoc(int trainNo, List<FriendData> arr) async {
   String rst = 'None';
-  String apikey = "sample";
+  String apikey = "49647777496c656d39304a6d717744";
+  // String apikey = "sample";
   Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
   var fetchData = await net.getJsonData();
-  // if(fetchData["status"] == "500")
-  //   {
-  //
-  //   }
   if (trainNo == -1) {
     rst = "지하철 탑승중이 아닙니다.";
   } else {

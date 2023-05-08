@@ -1,5 +1,4 @@
 import 'package:find_my_subway/data/userData.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 
 class HiveProvider {

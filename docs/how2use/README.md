@@ -1,3 +1,5 @@
+# FindMySubway 설명서
+
 ## 지원 플렛폼
 only Web.   <http://subway.lemon7z.xyz>   
 ## 기능

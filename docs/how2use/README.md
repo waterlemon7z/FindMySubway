@@ -11,8 +11,10 @@ only Web.   <http://subway.lemon7z.xyz>
 1. 웹으로 사용 - <http://subway.lemon7z.xyz> 접속!   
 2. 안드로이드에서 사용 - <http://subway.lemon7z.xyz> 접속! (apk X)   
 3. 아이폰에서 사용 -<http://subway.lemon7z.xyz> 접속 -> 공유 버튼 -> 홈 화면에 추가   
+
 <img src="https://github.com/waterlemon7z/FindMySubway/blob/main/docs/how2use/Add%20to%20home.jpeg?raw=true" width="55%">   
 ## 버그 리스트
 * 동시에 빠르게 여러 역을 추가하면 무한 로딩 -> 설정의 데이터 초기화
 * 다크모드 이용시 상단 부분이 여전히 화이트로 남아있음
 * 친구 이름 변경 불가.
+

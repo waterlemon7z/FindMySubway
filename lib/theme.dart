@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class ThemeColors {
   final dark = ThemeData(
     primarySwatch: createMaterialColor(Color(0xff000000)),
-
     scaffoldBackgroundColor: Color(0xff000000),
     dividerColor: Colors.grey,
     appBarTheme: const AppBarTheme(
@@ -29,22 +28,27 @@ class ThemeColors {
     iconTheme: IconThemeData(
       color: Color(0xffffffff),
     ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        selectedItemColor: Color(0xffDD8D54),
-        unselectedItemColor: Color(0xff353535),
-        backgroundColor: Color(0xff000000),
-      ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: Color(0xffDD8D54),
+      unselectedItemColor: Color(0xff353535),
+      backgroundColor: Color(0xff000000),
+    ),
     canvasColor: const Color(0xff000000),
     hintColor: const Color(0xffffffff),
     listTileTheme: ListTileThemeData(
       textColor: Color(0xffffffff),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Color(0xffffffff),
+      ),
     ),
   );
 
   final light = ThemeData(
     primarySwatch: createMaterialColor(Color(0xffffffff)),
     scaffoldBackgroundColor: Color(0xffffffff),
-      appBarTheme: const AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0,
       color: Color(0xffffffff),
       titleTextStyle: TextStyle(
@@ -74,14 +78,20 @@ class ThemeColors {
     ),
     canvasColor: const Color(0xffffffff),
     hintColor: const Color(0xff000000),
-      listTileTheme: ListTileThemeData(
-        textColor: Color(0xff000000),
-      )
+    listTileTheme: ListTileThemeData(
+      textColor: Color(0xff000000),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Color(0xff000000),
+      ),
+    ),
   );
 }
+
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];
-  Map<int,Color> swatch = {};
+  Map<int, Color> swatch = {};
   final int r = color.red, g = color.green, b = color.blue;
 
   for (int i = 1; i < 10; i++) {

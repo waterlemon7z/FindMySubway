@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:find_my_subway/widgets/widget_showToast.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 
 class NewStaDetail extends StatefulWidget {
   final List<List<List<String>>> upNdownTrain;
   final List<int> comingTrainNo;
-  final SharedPreferences prefs;
-  NewStaDetail({required this.upNdownTrain, required this.comingTrainNo, required this.prefs});
+  NewStaDetail({required this.upNdownTrain, required this.comingTrainNo});
 
   @override
   State<NewStaDetail> createState() => _NewStaDetailState();
@@ -19,6 +18,7 @@ class _NewStaDetailState extends State<NewStaDetail> {
   final firestore = FirebaseFirestore.instance;
   late int uid;
   late int cur;
+  var box = Hive.box("Preferences");
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(14, 8, 0, 8),
@@ -30,13 +30,13 @@ class _NewStaDetailState extends State<NewStaDetail> {
               padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: GestureDetector(
                 onLongPress: (){
-                  if(widget.prefs.getBool("FriendFunc")!)
+                  if(box.get("FriendFunc")!)
                     {
-                      uid = widget.prefs.getInt("FriendCode")!;
+                      uid = box.get("FriendCode")!;
                       cur = widget.comingTrainNo[dir];
                       firestore.collection("CurrentLoc").doc(uid.toString()).update(<String, dynamic>{"TrainNo": cur});
                     }
-                  widget.prefs.setInt("CurrentTrain", widget.comingTrainNo[dir]);
+                  box.put("CurrentTrain", widget.comingTrainNo[dir]);
                   showToast("해당 역으로 들어올 열차\n탑승완료", false);
                 },
                 child: Container(

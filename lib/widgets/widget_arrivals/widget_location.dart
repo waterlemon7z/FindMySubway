@@ -7,26 +7,28 @@ class SubwayLocationInfo extends StatelessWidget {
   @override
   late final List<StationInform> stData;
   late int curSt;
-  late final List<EachStation> stUpStatus;
-  late final List<EachStation> stDownStatus;
+  late final Map<String, Map<int, StArrivalInfo>> stStatus;
   String subwayIcon = MyApp.themeNotifier.value == ThemeMode.light ? "subway" : "subway_white";
 
-  SubwayLocationInfo(List<StationInform> stData, int curSt,  List<EachStation>stUpStatus,  List<EachStation> stDownStatus)
-  {
+  SubwayLocationInfo(
+      List<StationInform> stData, int curSt,Map<String, Map<int, StArrivalInfo>> stStatus) {
     this.stData = stData;
     this.curSt = curSt;
-    this.stUpStatus = stUpStatus;
-    this.stDownStatus = stDownStatus;
-    if(this.curSt > 268)
-      {
-        this.curSt--;
-      }
+    this.stStatus = stStatus;
+    if (this.curSt > 268) {
+      this.curSt--;
+    }
     this.curSt -= 209;
   }
 
+  bool checkValidity(int i, String direction, String forState) {
+    if (stStatus[direction]![curSt + 209 + i] == null || curSt + i < 0 || curSt + i > 62)
+      return false;
+    else if (stStatus[direction]![curSt + 209 + i]!.arrival == forState) return true;
+    return false;
+  }
 
   Widget build(BuildContext context) {
-    print(curSt);
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: Column(
@@ -44,7 +46,8 @@ class SubwayLocationInfo extends StatelessWidget {
                             "assets/$subwayIcon.png",
                             width: MediaQuery.of(context).size.width / 11,
                           ),
-                          visible: curSt + i < 0 || curSt + i > 62 ? false : (stUpStatus[curSt + i].arrival == "0" ? true : false), // 접근
+                          visible: checkValidity(i, "up", "0"),
+                          // 접근
                           maintainSize: true,
                           maintainAnimation: true,
                           maintainState: true,
@@ -54,7 +57,7 @@ class SubwayLocationInfo extends StatelessWidget {
                             "assets/$subwayIcon.png",
                             width: MediaQuery.of(context).size.width / 11,
                           ),
-                          visible: curSt + i < 0 || curSt + i > 62 ? false : (stUpStatus[curSt + i].arrival == "1" ? true : false), // 도착
+                          visible: checkValidity(i, "up", "1"),
                           maintainSize: true,
                           maintainAnimation: true,
                           maintainState: true,
@@ -78,7 +81,7 @@ class SubwayLocationInfo extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      curSt + i < 0 || curSt + i > 62 ? "X": stData[curSt + i].kName,
+                      curSt + i < 0 || curSt + i > 62 ? "X" : stData[curSt + i].kName,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -88,7 +91,8 @@ class SubwayLocationInfo extends StatelessWidget {
             ],
           ),
           SizedBox(
-            height: 10,),
+            height: 10,
+          ),
           Row(
             children: [
               for (int i = 0; i < 4; i++)
@@ -109,7 +113,8 @@ class SubwayLocationInfo extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 11,
                             ),
                           ),
-                          visible: curSt - i < 0 || curSt - i > 62 ?false : (stDownStatus[curSt - i].arrival == "1" ? true : false), // 도착
+                          visible: checkValidity(i * (-1), "down", "1"),
+                          // 도착
                           maintainSize: true,
                           maintainAnimation: true,
                           maintainState: true,
@@ -123,7 +128,8 @@ class SubwayLocationInfo extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 11,
                             ),
                           ),
-                          visible: curSt - i < 0 || curSt - i > 62 ?false : (stDownStatus[curSt - i].arrival == "0" ? true : false), // 접근
+                          visible: checkValidity(i * (-1), "down", "0"),
+                          // 접근
                           maintainSize: true,
                           maintainAnimation: true,
                           maintainState: true,
@@ -160,16 +166,13 @@ class SubwayLocationInfo extends StatelessWidget {
 }
 
 class NormalLine extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
-        // alignment: Alignment.centerLeft,
-        color: Colors.grey,
-        height: 2,
-        width: MediaQuery.of(context).size.width / 11,
-      );
+    return Container(
+      // alignment: Alignment.centerLeft,
+      color: Colors.grey,
+      height: 2,
+      width: MediaQuery.of(context).size.width / 11,
+    );
   }
 }
-

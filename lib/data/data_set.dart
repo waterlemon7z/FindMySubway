@@ -1,15 +1,14 @@
 import 'package:find_my_subway/data/userData.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SubwayListDataSet {
   List<UserData> stationList = [];
   List<List<List<String>>> upTrainList = [];
   List<List<List<String>>> downTrainList = [];
   List<StationInform> stData = [];
-  List<EachStation> stUpSituation = [];
-  List<EachStation> stDownSituation = [];
+  // List<EachStation> stUpSituation = [];
+  // List<EachStation> stDownSituation = [];
+  Map<String, Map<int, StArrivalInfo>> stCurSituation = {"up": {}, "down": {}};
   int vis = 1;
-  late SharedPreferences pref;
   late Map<String, List<String>> staInfo;
   List<List<int>> comingTrainNo = [];
 }
@@ -34,6 +33,12 @@ class EachStation {
 
   EachStation({exP, arrival});
 }
+class StArrivalInfo{
+  final bool exP;
+  final String arrival;
+  final int stId;
+  StArrivalInfo(this.exP, this.arrival, this.stId);
+}
 
 class FriendData {
   late String name;
@@ -42,7 +47,6 @@ class FriendData {
 }
 
 class FriendPageData{
-  late SharedPreferences prefs;
   late bool visible;
   late int autoTimer = 1;
   late int uid;

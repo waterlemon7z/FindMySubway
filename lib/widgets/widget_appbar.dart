@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:find_my_subway/data/data_hive.dart';
 import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/data_to_list.dart';
@@ -14,8 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:find_my_subway/data/get_data.dart';
 import 'package:flutter/rendering.dart';
 import 'package:search_page/search_page.dart';
-
-class Appbars extends StatelessWidget with PreferredSizeWidget {
+class Appbars extends StatelessWidget implements PreferredSizeWidget {
   final String titleName;
 
   Appbars({required this.titleName});
@@ -40,8 +38,7 @@ class Appbars extends StatelessWidget with PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-class SearchAppbar extends StatelessWidget with PreferredSizeWidget {
+class SearchAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String titleName;
   final HiveProvider mainHive;
   late List<StationInform> data;
@@ -101,7 +98,7 @@ class SearchAppbar extends StatelessWidget with PreferredSizeWidget {
                           mainHive.insert(UserData(id: int.parse(data.stCode.substring(1)), stName: data.kName));
                           FavoritePageState? parent = context.findAncestorStateOfType<FavoritePageState>();
                           parent!.setState(() {
-                            parent.infoList = getSubwayInfo(mainHive);
+                            parent.infoList = getSubwayInfo();
                           });
                           showToast("추가되었습니다", false);
                         } else

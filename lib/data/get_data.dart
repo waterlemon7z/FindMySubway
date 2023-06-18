@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:find_my_subway/data/data_hive.dart';
 import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/userData.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'data_msg_parse.dart';
 import 'data_to_list.dart';
 
@@ -37,7 +35,8 @@ bool verifyWebsite(String str) {
   return true;
 }
 
-Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
+Future<SubwayListDataSet> getSubwayInfo() async {
+  HiveProvider mainHive = new HiveProvider();
   List<UserData> dataFromDb = await mainHive.getUserDataFromHive();
   List<List<dynamic>> addedStation = [];
   List<List<String>> tempUpTrain = [];
@@ -81,36 +80,17 @@ Future<SubwayListDataSet> getSubwayInfo(HiveProvider mainHive) async {
     tempDownTrain.clear();
     tempNextTrain = [-1, -1];
   }
-  for (int i = 0; i < 63; i++) {
-    SubData.stUpSituation.add(new EachStation(exP: false, arrival: "-1"));
-    SubData.stDownSituation.add(new EachStation(exP: false, arrival: "-1"));
-    // if(i == 58)
-    //   {
-    //     SubData.stUpSituation.add(new EachStation(exP : false, arrival: "-1"));
-    //     SubData.stDownSituation.add(new EachStation(exP : false, arrival: "-1"));
-    //   }
-  }
-
   Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
   var fetchData = await net.getJsonData();
-  if (fetchData["errorMessage"]["status"] == 200 || fetchData["status"] != 500)
+  if (fetchData["errorMessage"]["status"] == 200 || fetchData["status"] != 500) {
     for (int i = 0; i < fetchData["realtimePositionList"].length; i++) {
       var target = fetchData["realtimePositionList"][i];
-      if (target["updnLine"] == "0") {
-        int stCode = int.parse(target["statnId"].substring(7));
-        // SubData.stSituation[stCode - 209] = EachStation(arrival:int.parse(target["trainSttus"]), exP: target["directAt"] == '0' ? false : true);
-        SubData.stUpSituation[stCode - 209].arrival = target["trainSttus"];
-        SubData.stUpSituation[stCode - 209].exP = target["directAt"] == '0' ? false : true;
-      } else {
-        int stCode = int.parse(target["statnId"].substring(7));
-        // SubData.stSituation[stCode - 209] = EachStation(arrival:int.parse(target["trainSttus"]), exP: target["directAt"] == '0' ? false : true);
-        SubData.stDownSituation[stCode - 209].arrival = target["trainSttus"];
-        SubData.stDownSituation[stCode - 209].exP = target["directAt"] == '0' ? false : true;
-      }
+      SubData.stCurSituation[target["updnLine"] == "0" ? "up" : "down"]!.addAll({
+        int.parse(target["statnId"].substring(7)):
+            new StArrivalInfo(target["directAt"] == '0' ? false : true, target["trainSttus"], int.parse(target["statnId"].substring(7)))
+      });
     }
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  SubData.vis = (await prefs.getInt("Location"))!;
-  SubData.pref = await SharedPreferences.getInstance();
+  }
   SubData.staInfo = await getAllStationName();
   return SubData;
 }

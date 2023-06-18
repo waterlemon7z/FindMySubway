@@ -9,7 +9,7 @@ import 'package:find_my_subway/data/get_data.dart';
 import 'package:find_my_subway/widgets/widget_appbar.dart';
 import 'package:find_my_subway/widgets/widget_arrivals.dart';
 import 'package:flutter/rendering.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 import '../data/data_location.dart';
 import '../widgets/widget_showToast.dart';
 
@@ -24,8 +24,8 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   late Future infoList;
   late Future<List<StationInform>> stationData;
   HiveProvider mainHive = new HiveProvider();
+  var box = Hive.box("Preferences");
   late Timer _timer;
-  late SharedPreferences prefs;
 
   @override
   void dispose() {
@@ -36,20 +36,21 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    infoList = getSubwayInfo(mainHive);
+    infoList = getSubwayInfo();
     _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
+    if(box.get("AutoTimer") == 0)
+      _timer.cancel();
   }
 
   void autoRefresh() {
     setState(() {
-      if (prefs.getInt("AutoTimer") == 1) {
-        infoList = getSubwayInfo(mainHive);
-        showToast("새로고침", true);
-      }
+      infoList = getSubwayInfo();
+      showToast("새로고침", true);
     });
   }
 
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: SearchAppbar(
         titleName: "즐겨찾는 지하철 역",
@@ -64,7 +65,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             onPressed: () async {
               await find(mainHive);
               setState(() {
-                infoList = getSubwayInfo(mainHive);
+                infoList = getSubwayInfo();
                 // showToast("새로고침", true);
               });
             },
@@ -75,7 +76,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             onPressed: () {
               setState(() {
                 _timer.cancel();
-                infoList = getSubwayInfo(mainHive);
+                infoList = getSubwayInfo();
                 showToast("새로고침", true);
                 _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
               });
@@ -111,9 +112,6 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                 ),
               );
             } else {
-              prefs = snapshot.data.pref;
-              if(prefs.getInt("AutoTimer") == 0)
-                _timer.cancel();
               return ListView.builder(
                 itemCount: snapshot.data.stationList.length,
                 itemBuilder: (context, index) {
@@ -154,7 +152,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                     onDismissed: (direction) {
                       mainHive.delete(snapshot.data.stationList[index].id);
                       setState(() {
-                        infoList = getSubwayInfo(mainHive);
+                        infoList = getSubwayInfo();
                         snapshot.data.stationList.removeAt(index);
                       });
                       showToast("해당 역이 삭제되었습니다", true);
@@ -167,16 +165,14 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                           mainHive: mainHive,
                           staInfo: snapshot.data.staInfo,
                           comingTrainNo: snapshot.data.comingTrainNo[index],
-                          prefs: prefs,
                         ),
                         Visibility(
                           child: SubwayLocationInfo(
                             snapshot.data.stData,
                             snapshot.data.stationList[index].id,
-                            snapshot.data.stUpSituation,
-                            snapshot.data.stDownSituation,
+                            snapshot.data.stCurSituation,
                           ),
-                          visible: snapshot.data.vis == 1 ? true : false,
+                          visible: box.get("Location") == 1 ? true : false,
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),

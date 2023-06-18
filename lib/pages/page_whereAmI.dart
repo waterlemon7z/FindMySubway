@@ -6,9 +6,8 @@ import 'package:find_my_subway/widgets/widget_arrivals/widget_line_icon.dart';
 import 'package:find_my_subway/widgets/widget_arrivals/widget_station_name.dart';
 import 'package:find_my_subway/widgets/widget_showToast.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:find_my_subway/widgets/widget_showToast.dart';
 import '../data/get_data.dart';
 
 class WhereAmI extends StatefulWidget {
@@ -17,7 +16,6 @@ class WhereAmI extends StatefulWidget {
 }
 
 class _WhereAmIState extends State<WhereAmI> {
-  @override
   late Future loadData;
   final firestore = FirebaseFirestore.instance;
 
@@ -35,7 +33,7 @@ class _WhereAmIState extends State<WhereAmI> {
 
   void initState() {
     super.initState();
-    loadData = prefsLoad();
+    loadData = friendPageLoad();
     _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
   }
 
@@ -43,7 +41,7 @@ class _WhereAmIState extends State<WhereAmI> {
     if (mounted)
       setState(() {
         if (friendpd.autoTimer == 1) {
-          loadData = prefsLoad();
+          loadData = friendPageLoad();
           showToast("새로고침", true);
         }
       });
@@ -116,7 +114,7 @@ class _WhereAmIState extends State<WhereAmI> {
 
           if (mounted)
             setState(() {
-              loadData = prefsLoad();
+              loadData = friendPageLoad();
             });
         },
       ),
@@ -138,26 +136,27 @@ class _WhereAmIState extends State<WhereAmI> {
               );
             } else {
               friendpd = snapshot.data;
+              var box = Hive.box("Preferences");
               return Column(
                 children: [
                   ListTile(
-                    leading: friendpd.prefs.getInt("CurrentTrain")! != -1 ? IconBundang() : null,
+                    leading: box.get("CurrentTrain")! != -1 ? IconBundang() : null,
                     title: StationName(
                       stName: friendpd.cur.toString(),
                     ),
-                    trailing: friendpd.prefs.getInt("CurrentTrain")! != -1
+                    trailing: box.get("CurrentTrain")! != -1
                         ? TextButton(
                             child: Text(
                               "하차",
                               // style: TextStyle(color: Color(0xff000000)),
                             ),
                             onPressed: () {
-                              friendpd.prefs.setInt("CurrentTrain", -1);
+                              box.put("CurrentTrain", -1);
                               firestore.collection("CurrentLoc").doc(friendpd.uid.toString()).update(<String, dynamic>{"TrainNo": -1});
                               showToast("하차완료", false);
                               if (mounted)
                                 setState(() {
-                                  loadData = prefsLoad();
+                                  loadData = friendPageLoad();
                                 });
                             },
                           )
@@ -193,8 +192,8 @@ class _WhereAmIState extends State<WhereAmI> {
                                       if (mounted)
                                         setState(() {
                                           friendpd.friendList.add(friendUid!);
-                                          friendpd.prefs.setStringList("FriendList", friendpd.friendList);
-                                          loadData = prefsLoad();
+                                          box.put("FriendList", friendpd.friendList);
+                                          loadData = friendPageLoad();
                                         });
                                       friendUid = '-1';
                                     } else {
@@ -249,8 +248,8 @@ class _WhereAmIState extends State<WhereAmI> {
                                         ),
                                         onDismissed: (direction) {
                                           friendpd.friendList.removeAt(index);
-                                          friendpd.prefs.setStringList("FriendList", friendpd.friendList);
-                                          loadData = prefsLoad();
+                                          box.put("FriendList", friendpd.friendList);
+                                          loadData = friendPageLoad();
                                           showToast("해당 친구가 삭제되었습니다", true);
                                         },
                                         child: ListTile(
@@ -290,16 +289,16 @@ class _WhereAmIState extends State<WhereAmI> {
     );
   }
 
-  Future<FriendPageData> prefsLoad() async {
+  Future<FriendPageData> friendPageLoad() async {
     FriendPageData data = new FriendPageData();
-    data.prefs = await SharedPreferences.getInstance();
+    var box = Hive.box("Preferences");
     // prefs.setStringList("FriendList", []);
     FriendData temp;
-    data.autoTimer = data.prefs.getInt("AutoTimer")!;
-    data.curTrainNo = await data.prefs.getInt("CurrentTrain")!;
-    data.visible = data.prefs.getBool("FriendFunc")!;
-    data.uid = data.prefs.getInt("FriendCode")!;
-    data.friendList = data.prefs.getStringList("FriendList")!;
+    data.autoTimer = box.get("AutoTimer")!;
+    data.curTrainNo = box.get("CurrentTrain")!;
+    data.visible = box.get("FriendFunc")!;
+    data.uid = box.get("FriendCode")!;
+    data.friendList = box.get("FriendList")!;
     // var result = await firestore.collection('CurrentLoc').doc("PWTp3yeU0onphMA6B6LU").get();
     // await firestore.collection("CurrentLoc").doc(uid.toString()).set(<String, int>{"ID" : uid, "TrainNo": curTrainNo});
     for (int i = 0; i < data.friendList.length; i++) {
@@ -316,10 +315,10 @@ class _WhereAmIState extends State<WhereAmI> {
         data.friendData.add(temp);
       }
     }
-    data.cur = await GetCurrentLoc(data.curTrainNo ?? -1, data.friendData);
+    data.cur = await GetCurrentLoc(data.curTrainNo, data.friendData);
     if (data.cur == "None") {
       data.cur = "지하철 탑승중이 아닙니다.";
-      data.prefs.setInt("CurrentTrain", -1);
+      box.put("CurrentTrain", -1);
     }
     return data;
   }

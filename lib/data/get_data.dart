@@ -166,10 +166,10 @@ class DataFromAPI {
       Pair("수인분당선", "LineBundang"),
     ];
     Map<String, Map<String, List<String>>> stationInfo = {};
-    // Network net = Network("https://raw.githubusercontent.com/waterlemon7z/FindMySubway/main/assets/subwayData.json");
-    // var fetchData = await net.getJsonData();
-    String jsonString = await rootBundle.loadString('assets/subwayData.json');
-    var fetchData = json.decode(jsonString);
+    Network net = Network("https://raw.githubusercontent.com/waterlemon7z/FindMySubway/main/assets/subwayData.json");
+    var fetchData = await net.getJsonData();
+    // String jsonString = await rootBundle.loadString('assets/subwayData.json');
+    // var fetchData = json.decode(jsonString);
 
     for (Pair<String, String> iter in searchList) {
       Map<String, List<String>> items = {};

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class SubwayLocationInfo extends StatelessWidget {
-  @override
   late final List<StationInform> stData;
   late int curSt;
   late final Map<String, Map<int, StArrivalInfo>> stStatus;

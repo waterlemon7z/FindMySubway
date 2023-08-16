@@ -1,30 +1,41 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:find_my_subway/data/userData.dart';
 
 class SubwayListDataSet {
-  List<UserData> stationList = [];
-  List<List<List<String>>> upTrainList = [];
-  List<List<List<String>>> downTrainList = [];
-  List<StationInform> stData = [];
-  // List<EachStation> stUpSituation = [];
-  // List<EachStation> stDownSituation = [];
-  Map<String, Map<int, StArrivalInfo>> stCurSituation = {"up": {}, "down": {}};
-  int vis = 1;
-  late Map<String, List<String>> staInfo;
-  List<List<int>> comingTrainNo = [];
+  List<RealTimeEachStationArrival> eachStationList = [];
+  static List<StationInform> allStationData = [];
+
+  // List<List<int>> comingTrainNo = [];
+
+  /*----------------------------------*/
+  static Map<String, RealTimePosition> RealTimePos = {};
+// late Map<String, Map<String, List<String>>> staInfo;
+}
+
+class RealTimeEachStationArrival {
+  RealTimeEachStationArrival(this.line, this.id, this.kName);
+
+  final String kName;
+  String prevName = "x";
+  String nextName = "x";
+  List<String> ahead = ["상행", "하행"];
+  final String line;
+  final int id;
+  List<Pair<String, String>> up = []; // 종점, 현제
+  List<Pair<String, String>> down = [];
+}
+
+class RealTimePosition {
+  List<StArrivalInfo> up = [];
+  List<StArrivalInfo> down = [];
 }
 
 class StationInform {
-  StationInform(stCode, kName, eName, jName) {
-    this.stCode = stCode;
-    this.kName = kName;
-    this.eName = eName;
-    this.jName = jName;
-  }
+  StationInform(this.stCode, this.line, this.kName);
 
-  String stCode = '';
-  String kName = '';
-  String eName = '';
-  String jName = '';
+  final String stCode;
+  final String line;
+  final String kName;
 }
 
 class EachStation {
@@ -33,10 +44,12 @@ class EachStation {
 
   EachStation({exP, arrival});
 }
-class StArrivalInfo{
+
+class StArrivalInfo {
   final bool exP;
   final String arrival;
   final int stId;
+
   StArrivalInfo(this.exP, this.arrival, this.stId);
 }
 
@@ -46,7 +59,7 @@ class FriendData {
   late int trainNo;
 }
 
-class FriendPageData{
+class FriendPageData {
   late bool visible;
   late int autoTimer = 1;
   late int uid;

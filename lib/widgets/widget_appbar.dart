@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:find_my_subway/data/data_hive.dart';
+import 'package:find_my_subway/data/data_msg_parse.dart';
 import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/data_to_list.dart';
 import 'package:find_my_subway/data/search_data_verify.dart';
@@ -59,68 +61,62 @@ class SearchAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () async {
-            data = mapData2List(await getAllStationName());
-            if (data != null) {
-              showSearch(
-                context: context,
-                delegate: SearchPage(
-                  showItemsOnEmpty: true,
-                  items: data,
-                  searchLabel: '지하철역 검색 ex) 가천대, K223, Gachon',
-                  searchStyle: TextStyle(
-                    color: (MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white),
-                  ),
-                  failure: const Center(
-                    child: Text(
-                      '해당 역은 없습니다.',
-                    ),
-                  ),
-                  filter: (StationInform data) => [
-                    data.kName,
-                    data.eName,
-                    data.stCode,
-                  ],
-                  // sort: (a, b) => a.compareTo(b),
-                  builder: (StationInform data) {
-                    return ListTile(
-                      leading: const IconBundang(),
-                      title: Text(
-                        "${data.kName} (${data.stCode})",
-                      ),
-                      subtitle: Text(
-                        "${data.eName} / ${data.jName}",
-                      ),
-                      trailing: const Text(
-                        '추가하기',
-                      ),
-                      onTap: () async {
-                        if (verifySearchData(data.kName, await mainHive.getListFromHive())) {
-                          mainHive.insert(UserData(id: int.parse(data.stCode.substring(1)), stName: data.kName));
-                          FavoritePageState? parent = context.findAncestorStateOfType<FavoritePageState>();
-                          parent!.setState(() {
-                            parent.infoList = getSubwayInfo();
-                          });
-                          showToast("추가되었습니다", false);
-                        } else
-                          showToast("이미 추가된 역입니다.", false);
-                      },
-                      // style:ListTileStyle(
-                      //
-                      // ),
-                    );
-                  },
-                  barTheme: curTheme,
-                  // barTheme:ThemeData(
-                  //   appBarTheme: const AppBarTheme(
-                  //     color: Color(0xff000000),
-                  //     elevation: 0,
-                  //   ),
-                  //   canvasColor: const Color(0xff000000),
-                  //   hintColor: const Color(0xffffffff),
-                  // )
+            data = mapData2List(await DataFromAPI.getAllStationName());
+            showSearch(
+              context: context,
+              delegate: SearchPage(
+                showItemsOnEmpty: true,
+                items: data,
+                searchLabel: '지하철역 검색 ex) 가천대, K223',
+                searchStyle: TextStyle(
+                  color: (MyApp.themeNotifier.value == ThemeMode.light ? Colors.black : Colors.white),
                 ),
-              );
-            }
+                failure: const Center(
+                  child: Text(
+                    '해당 역은 없습니다.',
+                  ),
+                ),
+                filter: (StationInform data) => [
+                  data.kName,
+                  data.stCode,
+                ],
+                // sort: (a, b) => a.compareTo(b),
+                builder: (StationInform data) {
+                  return ListTile(
+                    leading: LineIcon.icons[data.line],
+                    title: Text(
+                      "${data.kName} (${data.stCode})",
+                    ),
+                    trailing: const Text(
+                      '추가하기',
+                    ),
+                    onTap: () async {
+                      if (verifySearchData(Pair(data.kName, data.line), await mainHive.getListFromHive())) {
+                        mainHive.insert(UserData(id: parseStationId(data.stCode), stName: data.kName, line: data.line));
+                        FavoritePageState? parent = context.findAncestorStateOfType<FavoritePageState>();
+                        parent!.setState(() {
+                          parent.infoList = DataFromAPI.getSubwayInfo();
+                        });
+                        showToast("추가되었습니다", false);
+                      } else
+                        showToast("이미 추가된 역입니다.", false);
+                    },
+                    // style:ListTileStyle(
+                    //
+                    // ),
+                  );
+                },
+                barTheme: curTheme,
+                // barTheme:ThemeData(
+                //   appBarTheme: const AppBarTheme(
+                //     color: Color(0xff000000),
+                //     elevation: 0,
+                //   ),
+                //   canvasColor: const Color(0xff000000),
+                //   hintColor: const Color(0xffffffff),
+                // )
+              ),
+            );
           },
           icon: const Icon(
             Icons.search,

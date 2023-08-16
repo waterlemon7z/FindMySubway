@@ -14,8 +14,8 @@ class _HomeScrState extends State<HomeScr> {
   int _curPage = 0;
   final List<Widget> _widgetPages = [
     FavoritePage(),
-    WhereAmI(),
-    SubwayTimer(),
+    // WhereAmI(),
+    // SubwayTimer(),
     OptionPage(),
   ];
 
@@ -48,14 +48,14 @@ class _HomeScrState extends State<HomeScr> {
                 icon: Icon(Icons.star),
                 label: "Favorites",
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.live_help_rounded),
-                label: "WhereAmI",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.timer),
-                label: "Timer",
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.live_help_rounded),
+              //   label: "WhereAmI",
+              // ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.timer),
+              //   label: "Timer",
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
                 label: "Settings",

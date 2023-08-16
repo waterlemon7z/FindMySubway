@@ -7,6 +7,8 @@ class UserData {
   int id;
   @HiveField(1)
   String stName;
+  @HiveField(2)
+  String line;
 
-  UserData({required this.id, required this.stName});
+  UserData({required this.id, required this.stName, required this.line});
 }

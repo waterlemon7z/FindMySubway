@@ -1,4 +1,5 @@
 import 'package:find_my_subway/data/data_hive.dart';
+import 'package:find_my_subway/data/data_set.dart';
 import 'package:find_my_subway/data/userData.dart';
 import 'package:find_my_subway/widgets/widget_arrivals/widget_line_icon.dart';
 import 'package:find_my_subway/widgets/widget_arrivals/widget_new_detail.dart';
@@ -9,13 +10,9 @@ class Arrivals extends StatefulWidget {
   final Map lineIcons = {
     "Bundang": Padding(padding: const EdgeInsets.all(8.0), child: IconBundang()),
   };
-  final UserData udata;
-  final List<List<List<String>>> upNdownTrain;
-  final List<int> comingTrainNo;
+  final RealTimeEachStationArrival curStationInfo;
   final HiveProvider mainHive;
-  final Map<String, List<String>> staInfo;
-
-  Arrivals({required this.udata, required this.upNdownTrain, required this.mainHive, required this.staInfo, required this.comingTrainNo});
+  Arrivals({required this.curStationInfo, required this.mainHive});
 
   @override
   State<Arrivals> createState() => _ArrivalsState();
@@ -24,20 +21,19 @@ class Arrivals extends StatefulWidget {
 class _ArrivalsState extends State<Arrivals> {
   @override
   Widget build(BuildContext context) {
-    // print(widget.staInfo["K"+(widget.udata.id + 1).toString()]![0]);
-    // print("K"+widget.udata.id.toString());
+
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
           NewStationName(
-            stName: widget.udata.stName,
-            prevName: widget.udata.id + 1 < 273 ?widget.staInfo["K" + (widget.udata.id + 1).toString()]![0] : "X",
-            nextName: widget.udata.id - 1 > 208 ? widget.staInfo["K" + (widget.udata.id - 1).toString()]![0] : "X",
+            stName: widget.curStationInfo.kName,
+            prevName: widget.curStationInfo.prevName,
+            nextName: widget.curStationInfo.nextName,
+            line : widget.curStationInfo.line,
           ),
           NewStaDetail(
-            upNdownTrain: widget.upNdownTrain,
-            comingTrainNo: widget.comingTrainNo,
+            curStationInfo: widget.curStationInfo,
           ),
         ],
       ),

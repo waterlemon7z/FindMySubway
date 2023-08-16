@@ -36,7 +36,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    infoList = getSubwayInfo();
+    infoList = DataFromAPI.getSubwayInfo();
     _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
     if(box.get("AutoTimer") == 0)
       _timer.cancel();
@@ -44,7 +44,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
 
   void autoRefresh() {
     setState(() {
-      infoList = getSubwayInfo();
+      infoList = DataFromAPI.getSubwayInfo();
       showToast("새로고침", true);
     });
   }
@@ -65,7 +65,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             onPressed: () async {
               await find(mainHive);
               setState(() {
-                infoList = getSubwayInfo();
+                infoList = DataFromAPI.getSubwayInfo();
                 // showToast("새로고침", true);
               });
             },
@@ -76,7 +76,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
             onPressed: () {
               setState(() {
                 _timer.cancel();
-                infoList = getSubwayInfo();
+                infoList = DataFromAPI.getSubwayInfo();
                 showToast("새로고침", true);
                 _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
               });
@@ -99,7 +99,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
               style: TextStyle(fontSize: 15),
             );
           } else {
-            if (snapshot.data.stationList.length == 0) {
+            if (snapshot.data.eachStationList.length == 0) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,8 +112,9 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                 ),
               );
             } else {
+              SubwayListDataSet data = snapshot.data;
               return ListView.builder(
-                itemCount: snapshot.data.stationList.length,
+                itemCount: data.eachStationList.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
                     key: UniqueKey(),
@@ -150,30 +151,30 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                       ),
                     ),
                     onDismissed: (direction) {
-                      mainHive.delete(snapshot.data.stationList[index].id);
+                      mainHive.delete(data.eachStationList[index].id);
                       setState(() {
-                        infoList = getSubwayInfo();
-                        snapshot.data.stationList.removeAt(index);
+                        infoList = DataFromAPI.getSubwayInfo();
+                        snapshot.data.eachStationList.removeAt(index);
                       });
                       showToast("해당 역이 삭제되었습니다", true);
                     },
                     child: Column(
                       children: [
                         Arrivals(
-                          udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName),
-                          upNdownTrain: [snapshot.data.upTrainList[index], snapshot.data.downTrainList[index]],
+                          // udata: UserData(id: snapshot.data.stationList[index].id, stName: snapshot.data.stationList[index].stName,line: snapshot.data.stationList[index].line),
+                          curStationInfo: data.eachStationList[index],
                           mainHive: mainHive,
-                          staInfo: snapshot.data.staInfo,
-                          comingTrainNo: snapshot.data.comingTrainNo[index],
+                          // staInfo: data.stData[index],
+                          // comingTrainNo: snapshot.data.comingTrainNo[index],
                         ),
-                        Visibility(
-                          child: SubwayLocationInfo(
-                            snapshot.data.stData,
-                            snapshot.data.stationList[index].id,
-                            snapshot.data.stCurSituation,
-                          ),
-                          visible: box.get("Location") == 1 ? true : false,
-                        ),
+                        // Visibility(
+                        //   child: SubwayLocationInfo(
+                        //     snapshot.data.stData,
+                        //     snapshot.data.stationList[index].id,
+                        //     snapshot.data.stCurSituation,
+                        //   ),
+                        //   visible: box.get("Location") == 1 ? true : false,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                           child: Divider(

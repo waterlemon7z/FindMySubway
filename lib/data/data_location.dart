@@ -134,7 +134,7 @@ Future<void> find(HiveProvider mainHive) async {
   }
   if(curLoc.stName != "error")
     {
-      List<StationInform>  data =  mapData2List(await getAllStationName());
+      List<StationInform>  data =  mapData2List(await DataFromAPI.getAllStationName());
       int index = 0;
       for( ; index < data.length; index++)
         {
@@ -142,7 +142,8 @@ Future<void> find(HiveProvider mainHive) async {
             break;
         }
       if (verifySearchData(curLoc.stName, await mainHive.getListFromHive())) {
-        mainHive.insert(UserData(id: int.parse(data[index].stCode.substring(1)), stName: curLoc.stName));
+        //Todo: 바꿔야함
+        mainHive.insert(UserData(id: int.parse(data[index].stCode.substring(1)), stName: curLoc.stName, line:""));
         // FavoritePageState? parent = context.findAncestorStateOfType<FavoritePageState>();
         showToast("주변역 ${curLoc.stName}역이\n추가되었습니다", true);
       } else

@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:find_my_subway/data/userData.dart';
 import 'package:hive/hive.dart';
 
@@ -11,12 +12,11 @@ class HiveProvider {
     return rst;
   }
 
-
-  Future<List<String>> getListFromHive() async {
+  Future<List<Pair<String, String>>> getListFromHive() async {
     var box = await Hive.openBox<UserData>("userData");
-    List<String> rst = [];
+    List<Pair<String, String>> rst = [];
     for (var cur in box.values) {
-      rst.add(cur.stName);
+      rst.add(Pair(cur.stName, cur.line));
     }
     return rst;
   }

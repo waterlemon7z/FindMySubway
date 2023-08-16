@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:find_my_subway/data/data_hive.dart';
 import 'package:find_my_subway/main.dart';
 import 'package:find_my_subway/widgets/widget_appbar.dart';
@@ -15,9 +15,10 @@ class OptionPage extends StatefulWidget {
 }
 
 class _OptionPageState extends State<OptionPage> {
-  final firestore = FirebaseFirestore.instance;
+  // final firestore = FirebaseFirestore.instance;
   ThemeItem? selectedMenu = ThemeItem.darkTheme;
   var box = Hive.box("Preferences");
+  /*
   Future<void> _AddFriendPopUp(BuildContext context) async {
     final TextEditingController _textFieldController = TextEditingController();
     int uid = box.get("FriendCode")!;
@@ -75,7 +76,7 @@ class _OptionPageState extends State<OptionPage> {
             ],
           );
         });
-  }
+  }*/
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Appbars(titleName: "설정"),
@@ -95,8 +96,9 @@ class _OptionPageState extends State<OptionPage> {
             },
           ),
           ListTile(
+            enabled: false,
             title: const Text("지하철 현재 위치 표시 여부"),
-            trailing: const Text("보이기 <-> 숨기기"),
+            trailing: const Text("(공사중) 보이기 <-> 숨기기"),
             onTap: () {
               if (box.get("Location") == 0) {
                 box.put("Location", 1);
@@ -119,7 +121,7 @@ class _OptionPageState extends State<OptionPage> {
                 showToast("자동새로고침 비활성화됨", false);
               }
             },
-          ),
+          ),/*
           ListTile(
             title: const Text("친구 기능"),
             trailing: const Text("활성화 <-> 비활성화"),
@@ -150,7 +152,7 @@ class _OptionPageState extends State<OptionPage> {
             onTap: () async {
               await _AddFriendPopUp(context);
             },
-          ),
+          ),*/
           ListTile(
             title: const Text("데이터 초기화"),
             // trailing: Text("라이트테마 <-> 다크테마"),

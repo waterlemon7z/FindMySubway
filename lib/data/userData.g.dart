@@ -19,17 +19,20 @@ class UserDataAdapter extends TypeAdapter<UserData> {
     return UserData(
       id: fields[0] as int,
       stName: fields[1] as String,
+      line: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserData obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.stName);
+      ..write(obj.stName)
+      ..writeByte(2)
+      ..write(obj.line);
   }
 
   @override

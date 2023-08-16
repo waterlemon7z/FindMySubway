@@ -5,11 +5,14 @@ class NewStationName extends StatelessWidget {
   final String stName;
   final String prevName;
   final String nextName;
+  final String line;
 
-  NewStationName({required this.stName, required this.prevName, required this.nextName});
+  NewStationName({required this.stName, required this.prevName, required this.nextName, required this.line});
 
   @override
   Widget build(BuildContext context) {
+    StatelessWidget lineSmallIcon = LineIcon.icons[line + "small"]!;
+    Color lineColor = LineIcon.colors[line]!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Stack(
@@ -17,6 +20,12 @@ class NewStationName extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 7.5, 0, 0),
             child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              decoration: BoxDecoration(
+                color: lineColor,
+                borderRadius: BorderRadius.circular(40.0),
+              ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                 child: Row(
@@ -24,25 +33,25 @@ class NewStationName extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.navigate_before,
                           color: Color(0xffffffff),
                         ),
                         Text(
                            prevName,
-                          style: TextStyle(color: Color(0xffffffff)),
+                          style: const TextStyle(color: Color(0xffffffff)),
                         ),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
-                          nextName == null ? "X" : nextName,
-                          style: TextStyle(
+                          nextName,
+                          style: const TextStyle(
                             color: Color(0xffffffff),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.navigate_next,
                           color: Color(0xffffffff),
                         ),
@@ -51,50 +60,36 @@ class NewStationName extends StatelessWidget {
                   ],
                 ),
               ),
-              width: MediaQuery.of(context).size.width,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Color(0xffFABE00),
-                borderRadius: BorderRadius.circular(40.0),
-              ),
             ),
           ),
           Center(
             child: Container(
+              width: 150,
+              height: 45,
+              decoration: BoxDecoration(
+                color: const Color(0xffffffff),
+                borderRadius: BorderRadius.circular(40.0),
+                border: Border.all(
+                  color: lineColor,
+                  width: 4,
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SmallBundangIcon(),
-                  SizedBox(
+                  lineSmallIcon,
+                  const SizedBox(
                     width: 4,
                   ),
                   Text(
                     stName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff000000),
                     ),
                   ),
                 ],
-              ),
-              width: 150,
-              height: 45,
-              decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                borderRadius: BorderRadius.circular(40.0),
-                border: Border.all(
-                  color: Color(0xffFABE00),
-                  width: 4,
-                ),
-                /*boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      blurRadius: 1,
-                      spreadRadius: 1,
-                      offset: Offset(0, 1),
-                    ),
-                  ]),*/
               ),
             ),
           ),

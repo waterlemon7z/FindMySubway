@@ -170,7 +170,7 @@ class _OptionPageState extends State<OptionPage> {
                 SizedBox(),
                 ListTile(
                   // title: Text("데이터 초기화"),
-                  trailing: Text("ver. 230508 / 11:02"),
+                  trailing: Text("ver. 230816 / 21:13)"),
                 ),
               ],
             ),

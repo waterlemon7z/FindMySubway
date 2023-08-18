@@ -61,7 +61,7 @@ class SearchAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           onPressed: () async {
-            data = mapData2List(await DataFromAPI.getAllStationName());
+            data = SubwayListDataSet.allStationData;
             showSearch(
               context: context,
               delegate: SearchPage(

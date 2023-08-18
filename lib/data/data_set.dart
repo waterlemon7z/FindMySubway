@@ -4,6 +4,7 @@ import 'package:find_my_subway/data/userData.dart';
 class SubwayListDataSet {
   List<RealTimeEachStationArrival> eachStationList = [];
   static List<StationInform> allStationData = [];
+  static Map<String, Map<String, String>> allStationDataByLine = {};
 
   // List<List<int>> comingTrainNo = [];
 

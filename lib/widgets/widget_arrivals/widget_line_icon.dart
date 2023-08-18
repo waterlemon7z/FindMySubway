@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class LineIcon
 {
   static Map<String, StatelessWidget> icons = {
-    // for(int i = 1; i <= 9; i++)
-    //   "Line${i}": IconOriginal(text: "$i", iconFontSize: 35, lineColor: colors["Line$i"]!),
-    // for(int i = 1; i <= 9; i++)
-    //   "Line${i}small": IconSmall(text: "${i}", iconFontSize: 13, lineColor: colors["Line${i}"]!),
+    //Todo: Icon/Color Set
     "Line1": IconOriginal(text: "1", iconFontSize: 35, lineColor: colors["Line1"]!),
     "Line1small": IconSmall(text: "1", iconFontSize: 13, lineColor: colors["Line1"]!),
     "Line2": IconOriginal(text: "2", iconFontSize: 35, lineColor: colors["Line2"]!),
@@ -23,8 +20,18 @@ class LineIcon
     "Line7small": IconSmall(text: "7", iconFontSize: 13, lineColor: colors["Line7"]!),
     "Line8": IconOriginal(text: "8", iconFontSize: 35, lineColor: colors["Line8"]!),
     "Line8small": IconSmall(text: "8", iconFontSize: 13, lineColor: colors["Line8"]!),
+    "Line9": IconOriginal(text: "9", iconFontSize: 35, lineColor: colors["Line9"]!),
+    "Line9small": IconSmall(text: "9", iconFontSize: 13, lineColor: colors["Line9"]!),
     "LineBundang": IconOriginal(text: "수인\n분당", iconFontSize: 15, lineColor: colors["LineBundang"]!),
     "LineBundangsmall": IconSmall(text: "수", iconFontSize: 13, lineColor: colors["LineBundang"]!),
+    "LineShinBundang": IconOriginal(text: "신분당", iconFontSize: 15, lineColor: colors["LineShinBundang"]!),
+    "LineShinBundangsmall": IconSmall(text: "신", iconFontSize: 13, lineColor: colors["LineShinBundang"]!),
+    "LineGyeongui": IconOriginal(text: "경의\n중앙", iconFontSize: 15, lineColor: colors["LineGyeongui"]!),
+    "LineGyeonguismall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeongui"]!),
+    "LineGyeongchun": IconOriginal(text: "경춘", iconFontSize: 19, lineColor: colors["LineGyeongchun"]!),
+    "LineGyeongchunsmall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeongchun"]!),
+    "LineGyeonggang": IconOriginal(text: "경강", iconFontSize: 19, lineColor: colors["LineGyeonggang"]!),
+    "LineGyeonggangsmall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeonggang"]!),
   };
   static Map<String, Color> colors = {
     "Line1" : Color(0xff0052A4),
@@ -35,7 +42,13 @@ class LineIcon
     "Line6" : Color(0xffCD7C2F),
     "Line7" : Color(0xff747F00),
     "Line8" : Color(0xffE6186C),
-    "LineBundang" : Color(0xffFABE00),};
+    "Line9" : Color(0xffBDB092),
+    "LineBundang" : Color(0xffFABE00),
+    "LineShinBundang" : Color(0xffD31145),
+    "LineGyeongui" : Color(0xff77C4A3),
+    "LineGyeongchun" : Color(0xff178C72),
+    "LineGyeonggang" : Color(0xff0054A6),
+  };
 }
 
 class IconOriginal  extends StatelessWidget

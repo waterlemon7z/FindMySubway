@@ -3196,7 +3196,7 @@
       "line_num": "신분당선",
       "station_cd": "4307",
       "station_nm": "강남",
-      "fr_code": "D7"
+      "fr_code": "D07"
     },
     {
       "line_num": "신림선",
@@ -4012,31 +4012,31 @@
       "line_num": "신분당선",
       "station_cd": "4304",
       "station_nm": "신사",
-      "fr_code": "D4"
+      "fr_code": "D04"
     },
     {
       "line_num": "신분당선",
       "station_cd": "4305",
       "station_nm": "논현",
-      "fr_code": "D5"
+      "fr_code": "D05"
     },
     {
       "line_num": "신분당선",
       "station_cd": "4306",
       "station_nm": "신논현",
-      "fr_code": "D6"
+      "fr_code": "D06"
     },
     {
       "line_num": "신분당선",
       "station_cd": "4308",
       "station_nm": "양재",
-      "fr_code": "D8"
+      "fr_code": "D08"
     },
     {
       "line_num": "신분당선",
       "station_cd": "4309",
       "station_nm": "양재시민의숲",
-      "fr_code": "D9"
+      "fr_code": "D09"
     },
     {
       "line_num": "신분당선",

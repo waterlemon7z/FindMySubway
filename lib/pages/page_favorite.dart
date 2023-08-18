@@ -37,9 +37,10 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   void initState() {
     super.initState();
     infoList = DataFromAPI.getSubwayInfo();
-    _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
-    if(box.get("AutoTimer") == 0)
+    _timer = Timer.periodic(const Duration(milliseconds: 15000), (timer) => autoRefresh());
+    if(box.get("AutoTimer") == 0) {
       _timer.cancel();
+    }
   }
 
   void autoRefresh() {
@@ -61,7 +62,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
         children: [
           FloatingActionButton.small(
             heroTag: "locate",
-            child: Icon(Icons.location_on_outlined),
+            child: const Icon(Icons.location_on_outlined),
             onPressed: () async {
               await find(mainHive);
               setState(() {
@@ -72,13 +73,13 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
           ),
           FloatingActionButton.small(
             heroTag: "refresh",
-            child: Icon(Icons.refresh),
+            child: const Icon(Icons.refresh),
             onPressed: () {
               setState(() {
                 _timer.cancel();
                 infoList = DataFromAPI.getSubwayInfo();
                 showToast("새로고침", true);
-                _timer = Timer.periodic(Duration(milliseconds: 15000), (timer) => autoRefresh());
+                _timer = Timer.periodic(const Duration(milliseconds: 15000), (timer) => autoRefresh());
               });
             },
           ),
@@ -90,20 +91,20 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
           if (snapshot.hasData == false) {
             return Center(
                 child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: CircularProgressIndicator(color: Colors.cyanAccent),
             ));
           } else if (snapshot.hasError) {
             return Text(
               'Error: ${snapshot.error}\n불러오기 에러',
-              style: TextStyle(fontSize: 15),
+              style: const TextStyle(fontSize: 15),
             );
           } else {
             if (snapshot.data.eachStationList.length == 0) {
-              return Center(
+              return const Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
+                  children: [
                     Text(
                       '저장된 역이 없습니다.\n우상단의 검색을 통해 추가할 수 있습니다.',
                       textAlign: TextAlign.center,
@@ -120,7 +121,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                     key: UniqueKey(),
                     secondaryBackground: Container(
                       color: Colors.red,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(),
@@ -136,7 +137,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                     ),
                     background:  Container(
                       color: Colors.red,
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Icon(
@@ -175,8 +176,8 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                         //   ),
                         //   visible: box.get("Location") == 1 ? true : false,
                         // ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
                           child: Divider(
                             thickness: 1,
                           ),

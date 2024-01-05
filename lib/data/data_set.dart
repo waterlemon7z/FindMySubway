@@ -1,5 +1,4 @@
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:find_my_subway/data/userData.dart';
 
 class SubwayListDataSet {
   List<RealTimeEachStationArrival> eachStationList = [];

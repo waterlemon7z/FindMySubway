@@ -1,4 +1,4 @@
-import 'package:analyzer_plugin/protocol/protocol.dart';
+
 
 String parseString(String original, String where) {
   String rst, min;
@@ -41,19 +41,21 @@ int parseStationId(String str) {
     return int.parse("10750${str.substring(1)}");
   } else if (str[0] == 'D') {
     return int.parse("10770${str.substring(1)}"); //신분
-  } else if (str.contains("K1")) { //경의 중앙
+  } else if (str.contains("K1")) {
+    //경의 중앙
     return int.parse("10630${str.substring(1)}");
-  } else if (str.contains("K3")) { //경의 중앙
+  } else if (str.contains("K3")) {
+    //경의 중앙
     return int.parse("10630${str.substring(1)}");
-  } else if (str.contains("K4")) { //경강
+  } else if (str.contains("K4")) {
+    //경강
     return int.parse("10810${str.substring(1)}");
   } else if (str.contains("P1")) {
     str = str.substring(1);
-    if(int.parse(str) >= 142)
+    if (int.parse(str) >= 142)
       return int.parse("10011$str"); //1호선
     else
       return int.parse("10670$str"); //경춘
-
   } else if (str[0] == '1') {
     return int.parse("10010$str");
   } else if (str[0] == '2') {

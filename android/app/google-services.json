@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "103768617122",
+    "project_id": "findmysubway",
+    "storage_bucket": "findmysubway.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103768617122:android:2639fa2271af031acde7fb",
+        "android_client_info": {
+          "package_name": "com.example.find_my_subway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103768617122-bhgh61cd5f0s6rm6mls5pee0qhg9vn63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrG1i0LS6tNSzNS7_EDLI21uPZYnDk5fc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103768617122-bhgh61cd5f0s6rm6mls5pee0qhg9vn63.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "103768617122-tcfvqh8ik2at9j3pf477tv6p2e3rvshi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lemon7z.findMySubway"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

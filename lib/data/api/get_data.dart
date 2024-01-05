@@ -1,18 +1,17 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:convert';
-
 import 'package:analyzer_plugin/utilities/pair.dart';
-import 'package:find_my_subway/data/data_hive.dart';
 import 'package:find_my_subway/data/data_set.dart';
-import 'package:find_my_subway/data/userData.dart';
-import 'package:flutter/services.dart';
+import 'package:find_my_subway/entity/UserSubwayDataEntity.dart';
+import 'package:find_my_subway/service/UserSubwayService.dart';
+
+import '../data_msg_parse.dart';
+import '../data_to_list.dart';
 import 'data_Network.dart';
-import 'data_msg_parse.dart';
-import 'data_to_list.dart';
 
 class DataFromAPI {
   static String apikey = "49647777496c656d39304a6d717744";
+  static final UserSubwayService _userSubwayService = UserSubwayService();
 
   // String apikey = "sample";
   //Todo: Line ID Set
@@ -86,11 +85,11 @@ class DataFromAPI {
         index++;
       }
 
-      if (index - 1 >= 0 ) {
+      if (index - 1 >= 0) {
         rst.last.nextName = stationNames.elementAt(index - 1);
       }
       if (index + 1 < stationNames.length) {
-        rst.last.prevName= stationNames.elementAt(index + 1);
+        rst.last.prevName = stationNames.elementAt(index + 1);
       }
       if (rst.last.kName == "가산디지털단지") {
         rst.last.nextName = "구로";
@@ -159,10 +158,9 @@ class DataFromAPI {
 
   static Future<SubwayListDataSet> getSubwayInfo() async {
     // Boss!!
-    HiveProvider mainHive = HiveProvider();
     SubwayListDataSet SubData = SubwayListDataSet();
 
-    List<UserData> dataFromDb = await mainHive.getUserDataFromHive();
+    List<UserSubwayDataEntity> dataFromDb = await _userSubwayService.getUserData();
     List<Pair<Pair<String, String>, int>> addedStation = [];
     for (int i = 0; i < dataFromDb.length; i++) {
       addedStation.add(Pair(Pair(dataFromDb[i].stName, dataFromDb[i].line), dataFromDb[i].id));
@@ -196,7 +194,7 @@ class DataFromAPI {
     Map<String, Map<String, String>> result = {};
     Network net = Network("https://raw.githubusercontent.com/waterlemon7z/FindMySubway/main/assets/subwayData.json");
     var fetchData = await net.getJsonData();
-    // String jsonString = await rootBundle.loadString('assets/subwayData.json');
+    // String jsonString = await rootBundle.loadString('assets/subwayData.json.bak');
     // var fetchData = json.decode(jsonString);
 
     // for (Pair<String, String> iter in searchList) {
@@ -227,8 +225,7 @@ class DataFromAPI {
     for (Pair<String, String> line in searchList) {
       var items = result[line.last];
 
-      result[line.last] = Map.fromEntries(
-          items!.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+      result[line.last] = Map.fromEntries(items!.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
     }
     return result;
   }

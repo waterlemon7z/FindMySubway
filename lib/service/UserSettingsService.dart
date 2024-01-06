@@ -30,5 +30,11 @@ class UserSettingsService
     settingData.autoTimer = !settingData.autoTimer;
     updateSettingData(settingData);
   }
-
+  Future<void> setHive() async
+  {
+    if(!_userSettingsRepository.isContains())
+    {
+      await _userSettingsRepository.update(UserSettingsEntity(0, true, "-1", 01, false, [], true));
+    }
+  }
 }

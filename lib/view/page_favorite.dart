@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:find_my_subway/data/api/get_data.dart';
 import 'package:find_my_subway/data/data_set.dart';
+import 'package:find_my_subway/service/UserSettingsService.dart';
 import 'package:find_my_subway/service/UserSubwayService.dart';
 import 'package:find_my_subway/view/widgets/widget_appbar.dart';
 import 'package:find_my_subway/view/widgets/widget_arrivals.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:get_it/get_it.dart';
 
 import '../view/widgets/widget_showToast.dart';
 
@@ -22,8 +23,8 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
   late Future<List<StationInform>> stationData;
 
   //Todo
-  final UserSubwayService _userSubwayService = UserSubwayService();
-  var box = Hive.box("Preferences");
+  final UserSubwayService _userSubwayService = GetIt.I<UserSubwayService>();
+  final UserSettingsService _userSettingService = GetIt.I<UserSettingsService>();
   late Timer _timer;
 
   @override
@@ -37,7 +38,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
     super.initState();
     infoList = DataFromAPI.getSubwayInfo();
     _timer = Timer.periodic(const Duration(milliseconds: 15000), (timer) => autoRefresh());
-    if (box.get("AutoTimer") == 0) {
+    if (!_userSettingService.getSettingData().autoTimer) {
       _timer.cancel();
     }
   }
@@ -148,7 +149,7 @@ class FavoritePageState extends State<FavoritePage> with AutomaticKeepAliveClien
                       ),
                     ),
                     onDismissed: (direction) {
-                      _userSubwayService.delete(data.eachStationList[index].id);
+                      _userSubwayService.deleteById(data.eachStationList[index].id);
                       setState(() {
                         infoList = DataFromAPI.getSubwayInfo();
                         snapshot.data.eachStationList.removeAt(index);

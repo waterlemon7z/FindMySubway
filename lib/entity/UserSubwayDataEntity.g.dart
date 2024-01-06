@@ -17,10 +17,10 @@ class UserSubwayDataEntityAdapter extends TypeAdapter<UserSubwayDataEntity> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserSubwayDataEntity(
-      idx: fields[0] as int,
-      id: fields[1] as int,
-      stName: fields[2] as String,
-      line: fields[3] as String,
+      fields[0] as int,
+      fields[1] as String,
+      fields[2] as String,
+      fields[3] as String,
     );
   }
 

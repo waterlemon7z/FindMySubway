@@ -6,7 +6,6 @@ import 'package:find_my_subway/entity/UserSubwayDataEntity.dart';
 import 'package:find_my_subway/service/UserSubwayService.dart';
 
 import '../data_msg_parse.dart';
-import '../data_to_list.dart';
 import 'data_Network.dart';
 
 class DataFromAPI {
@@ -48,18 +47,19 @@ class DataFromAPI {
     return "";
   }
 
-  static Future<List<RealTimeEachStationArrival>> getStationList(List<Pair<Pair<String, String>, int>> addedStation) async {
+  static Future<List<RealTimeEachStationArrival>> getStationList(List<UserSubwayDataEntity> addedStation) async {
     List<RealTimeEachStationArrival> rst = [];
     print("total station count : ${addedStation.length}");
-    for (Pair<Pair<String, String>, int> cur in addedStation) {
+    addedStation.sort((a, b)=>a.idx.compareTo(b.idx));
+    for (UserSubwayDataEntity cur in addedStation) {
       // pair(pair(stName, line), id)
-      print("loading station : ${cur.first.first}");
+      print("loading station : ${cur.stName}");
       Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/"
-          "json/realtimeStationArrival/0/30/${cur.first.first}");
-      String line = _lineIdConvertor(cur.first.last);
+          "json/realtimeStationArrival/0/30/${cur.stName}");
+      String line = _lineIdConvertor(cur.line);
       Map<String, dynamic> fetchData = await net.getJsonData();
       if (fetchData.containsKey("errorMessage") == true && fetchData["errorMessage"]["status"] == 200) {
-        rst.add(RealTimeEachStationArrival(cur.first.last, cur.last, cur.first.first));
+        rst.add(RealTimeEachStationArrival(cur.line, cur.id, cur.stName));
 
         // print("test : ${fetchData["realtimeArrivalList"][3]}");
         for (var target in fetchData["realtimeArrivalList"]) {
@@ -72,27 +72,52 @@ class DataFromAPI {
           }
         }
       } else if (fetchData["status"] == 500) {
-        rst.add(RealTimeEachStationArrival(cur.first.last, cur.last, cur.first.first));
+        rst.add(RealTimeEachStationArrival(cur.line, cur.id, cur.stName));
       }
 
       int index = 0;
-      Iterable<String> stationNames = SubwayListDataSet.allStationDataByLine[cur.first.last]!.values;
+      List<StationInform> allStationDataByLine = SubwayListDataSet.allStationDataByLine[cur.line]!;
 
-      for (String iter in stationNames) {
-        if (iter == rst.last.kName) {
+      for (var element in allStationDataByLine) {
+        if (element.kName == rst.last.kName) {
           break;
         }
         index++;
       }
 
+      // for (StationInform iter in allStationDataByLine.iterator) {
+      //   if (iter == rst.last.kName) {
+      //     break;
+      //   }
+      //   index++;
+      // }
+
       if (index - 1 >= 0) {
-        rst.last.nextName = stationNames.elementAt(index - 1);
+        rst.last.nextName = allStationDataByLine.elementAt(index - 1).kName;
       }
-      if (index + 1 < stationNames.length) {
-        rst.last.prevName = stationNames.elementAt(index + 1);
+      if (index + 1 < allStationDataByLine.length) {
+        rst.last.prevName = allStationDataByLine.elementAt(index + 1).kName;
       }
       if (rst.last.kName == "가산디지털단지") {
         rst.last.nextName = "구로";
+      }
+      if (rst.last.kName == "서동탄") {
+        rst.last.prevName = "x";
+      }
+      if (rst.last.kName == "광명") {
+        rst.last.nextName = "x";
+      }
+      if (rst.last.kName == "도림천") {
+        rst.last.prevName = "신도림";
+      }
+      if (rst.last.kName == "까치산") {
+        rst.last.nextName = "x";
+      }
+      if (rst.last.kName == "용답") {
+        rst.last.prevName = "성수";
+      }
+      if (rst.last.kName == "신설동") {
+        rst.last.prevName = "x";
       }
       //Todo: ahead Set
       if (line == "1075") {
@@ -160,19 +185,19 @@ class DataFromAPI {
     // Boss!!
     SubwayListDataSet SubData = SubwayListDataSet();
 
-    List<UserSubwayDataEntity> dataFromDb = await _userSubwayService.getUserData();
-    List<Pair<Pair<String, String>, int>> addedStation = [];
-    for (int i = 0; i < dataFromDb.length; i++) {
-      addedStation.add(Pair(Pair(dataFromDb[i].stName, dataFromDb[i].line), dataFromDb[i].id));
-    }
-    SubData.eachStationList = await getStationList(addedStation);
+    // List<UserSubwayDataEntity> dataFromDb = await _userSubwayService.getUserData();
+    // List<Pair<Pair<String, String>, String>> addedStation = [];
+    // for (int i = 0; i < dataFromDb.length; i++) {
+    //   addedStation.add(Pair(Pair(dataFromDb[i].stName, dataFromDb[i].line), dataFromDb[i].id));
+    // }
+    SubData.eachStationList = await getStationList(await _userSubwayService.getUserData());
     //Todo: await getRealTimePosition();
     // SubData.staInfo = await getAllStationName();
     // print(SubData.stationList[1].id);
     return SubData;
   }
 
-  static Future<Map<String, Map<String, String>>> getAllStationName() async {
+  static Future<Map<String, List<StationInform>>> getAllStationName() async {
     //Todo: Line Set
     List<Pair<String, String>> searchList = [
       Pair("01호선", "Line1"),
@@ -191,41 +216,36 @@ class DataFromAPI {
       Pair("경강선", "LineGyeonggang"),
     ];
     // Map<String, Map<String, List<String>>> stationInfo = {};
-    Map<String, Map<String, String>> result = {};
+    Map<String, List<StationInform>> result = {};
     Network net = Network("https://raw.githubusercontent.com/waterlemon7z/FindMySubway/main/assets/subwayData.json");
     var fetchData = await net.getJsonData();
-    // String jsonString = await rootBundle.loadString('assets/subwayData.json.bak');
-    // var fetchData = json.decode(jsonString);
-
-    // for (Pair<String, String> iter in searchList) {
-    //   Map<String, List<String>> items = {};
-    //   for (int i = 0; i < fetchData["DATA"].length; i++) {
-    //     if (fetchData["DATA"][i]["line_num"] == iter.first) {
-    //       items[fetchData["DATA"][i]["fr_code"]] = [
-    //         fetchData["DATA"][i]["station_nm"],
-    //       ];
-    //     }
-    //   }
-    //   // stationInfo["K268"] = ["학익", "Hagik", "鶴翼"];
-    //   items = Map.fromEntries(items.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
-    //   stationInfo[iter.last] = items;
-    // }
     for (Pair<String, String> line in searchList) {
-      result[line.last] = {};
+      result[line.last] = [];
     }
+
     for (var iter in fetchData["DATA"]) {
       for (Pair<String, String> line in searchList) {
         if (iter["line_num"] == line.first) {
-          // print("${line.last} ${iter["fr_code"]} ${iter["station_nm"]}");
-          result[line.last]![iter["fr_code"]] = iter["station_nm"];
+          if (iter["fr_code"].contains("-")) {
+            String tar = iter["fr_code"];
+            var split = tar.split("-"), tmp;
+            if (split.first.contains("P")) {
+              tmp = split.first + split.last;
+              result[line.last]!.add(StationInform(tmp, iter["fr_code"], line.last, iter["station_nm"]));
+            } else {
+              tmp = int.parse(split.first) - int.parse(split.last);
+              result[line.last]!.add(StationInform("0$tmp", iter["fr_code"], line.last, iter["station_nm"]));
+            }
+            continue;
+          }
+          result[line.last]!.add(StationInform(iter["fr_code"], iter["fr_code"], line.last, iter["station_nm"]));
           break;
         }
       }
     }
     for (Pair<String, String> line in searchList) {
-      var items = result[line.last];
-
-      result[line.last] = Map.fromEntries(items!.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+      
+      result[line.last]!.sort((a, b)=>a.stCode.compareTo(b.stCode));
     }
     return result;
   }
@@ -233,7 +253,6 @@ class DataFromAPI {
   static Future<String> GetCurrentLoc(int trainNo, List<FriendData> arr) async {
     String rst = 'None';
     String apikey = "49647777496c656d39304a6d717744";
-    // String apikey = "sample";
     Network net = Network("http://swopenapi.seoul.go.kr/api/subway/$apikey/json/realtimePosition/0/70/수인분당선");
     var fetchData = await net.getJsonData();
     if (trainNo == -1) {
@@ -241,7 +260,6 @@ class DataFromAPI {
     } else {
       // print("fine");
       for (int i = 0; i < fetchData["realtimePositionList"].length; i++) {
-        // print(fetchData["realtimePositionList"][i]["trainNo"]);
         if (trainNo.toString().compareTo(fetchData["realtimePositionList"][i]["trainNo"]) == 0) {
           rst = fetchData["realtimePositionList"][i]["statnNm"];
         }
@@ -264,4 +282,12 @@ class DataFromAPI {
 
     return rst;
   }
+}
+
+List<StationInform> mapData2List(Map<String, List<StationInform>> data) {
+  List<StationInform> rst = [];
+  data.values.forEach((element) {
+    rst.addAll(element);
+  });
+  return rst;
 }

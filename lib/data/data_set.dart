@@ -2,14 +2,11 @@ import 'package:analyzer_plugin/utilities/pair.dart';
 
 class SubwayListDataSet {
   List<RealTimeEachStationArrival> eachStationList = [];
-  static List<StationInform> allStationData = [];
-  static Map<String, Map<String, String>> allStationDataByLine = {};
-
-  // List<List<int>> comingTrainNo = [];
-
+  static Map<String, List<StationInform>> allStationDataByLine = {};
   /*----------------------------------*/
   static Map<String, RealTimePosition> RealTimePos = {};
-// late Map<String, Map<String, List<String>>> staInfo;
+
+  static List<StationInform> allStationData = [];
 }
 
 class RealTimeEachStationArrival {
@@ -20,7 +17,7 @@ class RealTimeEachStationArrival {
   String nextName = "x";
   List<String> ahead = ["상행", "하행"];
   final String line;
-  final int id;
+  final String id;
   List<Pair<String, String>> up = []; // 종점, 현제
   List<Pair<String, String>> down = [];
 }
@@ -31,9 +28,10 @@ class RealTimePosition {
 }
 
 class StationInform {
-  StationInform(this.stCode, this.line, this.kName);
+  StationInform(this.stCode, this.realStCode, this.line, this.kName);
 
   final String stCode;
+  final String realStCode;
   final String line;
   final String kName;
 }

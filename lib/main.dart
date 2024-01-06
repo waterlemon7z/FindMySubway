@@ -10,25 +10,29 @@ import 'package:find_my_subway/view/widgets/home_screen_navi.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+Future<void> _openHiveBoxes() async {
+  // userSettingData 박스 열기
+  if (!Hive.isBoxOpen("userSettingEntity")) {
+    await Hive.openBox("userSettingEntity");
+  }
 
-void dbSet() async {
+  // userSubwayData 박스 열기
+  if (!Hive.isBoxOpen("userSubwayDataEntity")) {
+    await Hive.openBox("userSubwayDataEntity");
+  }
+}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   Hive.registerAdapter(UserSubwayDataEntityAdapter());
   Hive.registerAdapter(UserSettingsEntityAdapter());
-  if (!await Hive.boxExists("userSettingData")) {
-    var box = Hive.box<UserSettingsEntity>("userSettingData");
-    UserSettingsEntity entity = UserSettingsEntity(0, true, "-1", 01, false, [], true);
-    box.put("setting", entity);
-  }
-  // await Hive.openBox('Preferences');
-  // Hive.deleteBoxFromDisk("userData");
-}
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  dbSet();
-  DataFromAPI.initStationData();
+  Hive.deleteBoxFromDisk("userSubwayDataEntity");
+  await _openHiveBoxes();
   setupLocator();
+  // Hive.box("userSettingEntity").put("setting",UserSettingsEntity(0, true, "-1", 01, false, [], true));
+
+  DataFromAPI.initStationData();
   runApp(const FindMySubwayApp());
 }
 
@@ -41,11 +45,11 @@ class FindMySubwayApp extends StatefulWidget {
 
 class _FindMySubwayAppState extends State<FindMySubwayApp> {
   ThemeColors themeData = ThemeColors();
-  final _userSettingService = GetIt.I<UserSettingsService>();
   @override
   void initState() {
     super.initState();
-    var settingData = _userSettingService.getSettingData();
+    final userSettingService = GetIt.I<UserSettingsService>();
+    var settingData = userSettingService.getSettingData();
     if (settingData.theme == 0) {
       FindMySubwayApp.themeNotifier.value = ThemeMode.light;
     } else {

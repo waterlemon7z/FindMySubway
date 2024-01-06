@@ -77,32 +77,23 @@ class SearchAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 filter: (StationInform data) => [
                   data.kName,
-                  data.stCode,
+                  data.realStCode,
                 ],
                 // sort: (a, b) => a.compareTo(b),
                 builder: (StationInform data) {
                   return ListTile(
                     leading: LineIcon.icons[data.line],
                     title: Text(
-                      "${data.kName} (${data.stCode})",
+                      "${data.kName} (${data.realStCode})",
                     ),
                     trailing: const Text(
                       '추가하기',
                     ),
                     onTap: () async {
-                      if (verifySearchData(Pair(data.kName, data.line), await _userSubwayService.getUserData())) {
-                        _userSubwayService.insert(UserSubwayDataEntity(id: parseStationId(data.stCode), stName: data.kName, line: data.line, idx: 0));
-                        FavoritePageState? parent = context.findAncestorStateOfType<FavoritePageState>();
-                        parent!.setState(() {
-                          parent.infoList = DataFromAPI.getSubwayInfo();
-                        });
-                        showToast("추가되었습니다", false);
-                      } else
-                        showToast("이미 추가된 역입니다.", false);
+                      await _userSubwayService.insertNewStation(
+                          UserSubwayDataEntity(0,data.realStCode,data.kName,data.line,)
+                          , context);
                     },
-                    // style:ListTileStyle(
-                    //
-                    // ),
                   );
                 },
                 barTheme: curTheme,

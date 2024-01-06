@@ -19,7 +19,6 @@ class _NewStaDetailState extends State<NewStaDetail> {
   // final firestore = FirebaseFirestore.instance;
   // late int uid;
   late int cur;
-  var box = Hive.box("Preferences");
 
   Widget build(BuildContext context) {
     final List<String> ahead = widget.curStationInfo.ahead;

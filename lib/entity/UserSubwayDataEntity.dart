@@ -7,11 +7,11 @@ class UserSubwayDataEntity {
   @HiveField(0)
   int idx;
   @HiveField(1)
-  int id;
+  String id;
   @HiveField(2)
   String stName;
   @HiveField(3)
   String line;
 
-  UserSubwayDataEntity({required this.idx, required this.id, required this.stName, required this.line});
+  UserSubwayDataEntity(this.idx, this.id, this.stName, this.line);
 }

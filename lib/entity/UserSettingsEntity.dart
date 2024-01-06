@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:hive/hive.dart';
 
 part 'UserSettingsEntity.g.dart';

@@ -1,5 +1,3 @@
-
-
 String parseString(String original, String where) {
   String rst, min;
   if (where.length > 5) {
@@ -30,6 +28,8 @@ String parseAheadString(String original) {
     rst = '${original.substring(0, original.indexOf("급") - 1)}급';
   } else if (original.contains("응암순환")) {
     rst = "순환";
+  } else if (original.contains("(막차)")) {
+    rst = '${original.substring(0, original.indexOf("("))}막';
   } else {
     rst = original;
   }
@@ -57,6 +57,8 @@ int parseStationId(String str) {
     else
       return int.parse("10670$str"); //경춘
   } else if (str[0] == '1') {
+    return int.parse("10010$str");
+  } else if (str[0] == '0' && str[1] == '9') {
     return int.parse("10010$str");
   } else if (str[0] == '2') {
     return int.parse("10020$str");

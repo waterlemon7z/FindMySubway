@@ -31,6 +31,10 @@ class LineIcon {
     "LineGyeongchunsmall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeongchun"]!),
     "LineGyeonggang": IconOriginal(text: "경강", iconFontSize: 19, lineColor: colors["LineGyeonggang"]!),
     "LineGyeonggangsmall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeonggang"]!),
+    "LineSeohae": IconOriginal(text: "서해", iconFontSize: 19, lineColor: colors["LineSeohae"]!),
+    "LineSeohaesmall": IconSmall(text: "서", iconFontSize: 13, lineColor: colors["LineSeohae"]!),
+    "LineUi": IconOriginal(text: "우이\n신설", iconFontSize: 19, lineColor: colors["LineUi"]!),
+    "LineUismall": IconSmall(text: "우", iconFontSize: 13, lineColor: colors["LineUi"]!),
   };
   static Map<String, Color> colors = {
     "Line1": Color(0xff0052A4),
@@ -47,6 +51,8 @@ class LineIcon {
     "LineGyeongui": Color(0xff77C4A3),
     "LineGyeongchun": Color(0xff178C72),
     "LineGyeonggang": Color(0xff0054A6),
+    "LineSeohae": Color(0xff8FC31F),
+    "LineUi": Color(0xffB7C450),
   };
 }
 

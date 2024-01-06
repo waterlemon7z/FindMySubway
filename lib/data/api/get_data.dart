@@ -43,6 +43,10 @@ class DataFromAPI {
       return "1008";
     } else if (str == "Line9") {
       return "1009";
+    } else if (str == "LineSeohae") {
+      return "1093";
+    } else if (str == "LineUi") {
+      return "1092";
     }
     return "";
   }
@@ -50,7 +54,7 @@ class DataFromAPI {
   static Future<List<RealTimeEachStationArrival>> getStationList(List<UserSubwayDataEntity> addedStation) async {
     List<RealTimeEachStationArrival> rst = [];
     print("total station count : ${addedStation.length}");
-    addedStation.sort((a, b)=>a.idx.compareTo(b.idx));
+    addedStation.sort((a, b) => a.idx.compareTo(b.idx));
     for (UserSubwayDataEntity cur in addedStation) {
       // pair(pair(stName, line), id)
       print("loading station : ${cur.stName}");
@@ -148,6 +152,10 @@ class DataFromAPI {
         rst.last.ahead = ["암사", "모란"];
       } else if (line == "1009") {
         rst.last.ahead = ["김포공항", "중앙보훈병원"];
+      } else if (line == "1092") {
+        rst.last.ahead = ["신설동", "북한산우이"];
+      } else if (line == "1093") {
+        rst.last.ahead = ["일산", "원시"];
       }
     }
     return rst;
@@ -214,6 +222,8 @@ class DataFromAPI {
       Pair("경의선", "LineGyeongui"),
       Pair("경춘선", "LineGyeongchun"),
       Pair("경강선", "LineGyeonggang"),
+      Pair("서해선", "LineSeohae"),
+      Pair("우이신설경전철", "LineUi"),
     ];
     // Map<String, Map<String, List<String>>> stationInfo = {};
     Map<String, List<StationInform>> result = {};
@@ -238,14 +248,19 @@ class DataFromAPI {
             }
             continue;
           }
-          result[line.last]!.add(StationInform(iter["fr_code"], iter["fr_code"], line.last, iter["station_nm"]));
+          if (iter["fr_code"] == "701") {
+            result[line.last]!.add(StationInform("851", "851", line.last, iter["station_nm"]));
+          } else if (iter["fr_code"] == "702") {
+            result[line.last]!.add(StationInform("852", "852", line.last, iter["station_nm"]));
+          } else {
+            result[line.last]!.add(StationInform(iter["fr_code"], iter["fr_code"], line.last, iter["station_nm"]));
+          }
           break;
         }
       }
     }
     for (Pair<String, String> line in searchList) {
-      
-      result[line.last]!.sort((a, b)=>a.stCode.compareTo(b.stCode));
+      result[line.last]!.sort((a, b) => a.stCode.compareTo(b.stCode));
     }
     return result;
   }

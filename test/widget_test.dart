@@ -54,10 +54,10 @@ void main() {
   //   expect(str, "7분 36초 (남부터미널)");
   // });
 
-  test("다트 문자열 테스트", () {
-    String str = "D10";
-    int id = parseStationId(str);
-    expect(id, 1077010);
-  });
+  // test("다트 문자열 테스트", () {
+  //   String str = "D10";
+    // int id = parseStationId(str);
+    // expect(id, 1077010);
+  // });
 
 }

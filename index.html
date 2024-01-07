@@ -14,6 +14,13 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
+  <script>
+    let href = window.location.href;
+    if(href.includes("https"))
+    {
+      window.location.href = "http://subway.lemon7z.com/"
+    }
+  </script>
   <base href="/">
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -33,7 +40,7 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = "3460237111";
+    var serviceWorkerVersion = "2884042339";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>

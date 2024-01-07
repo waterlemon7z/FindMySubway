@@ -33,7 +33,7 @@ class LineIcon {
     "LineGyeonggangsmall": IconSmall(text: "경", iconFontSize: 13, lineColor: colors["LineGyeonggang"]!),
     "LineSeohae": IconOriginal(text: "서해", iconFontSize: 19, lineColor: colors["LineSeohae"]!),
     "LineSeohaesmall": IconSmall(text: "서", iconFontSize: 13, lineColor: colors["LineSeohae"]!),
-    "LineUi": IconOriginal(text: "우이\n신설", iconFontSize: 19, lineColor: colors["LineUi"]!),
+    "LineUi": IconOriginal(text: "우이\n신설", iconFontSize: 15, lineColor: colors["LineUi"]!),
     "LineUismall": IconSmall(text: "우", iconFontSize: 13, lineColor: colors["LineUi"]!),
   };
   static Map<String, Color> colors = {

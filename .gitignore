@@ -42,3 +42,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/
+/GoogleService-Info.plist
+/analysis_options.yaml
+/아카이브.zip
+/202235134 최민석 동아리 자료.zip
+/README.md
+/AFAC 동아리 발표 2023.pptx
+/uml.puml
+/find_my_subway.iml
+/lib.zip
+/ios/
+/build/
+/.idea/
+/.dart_tool/

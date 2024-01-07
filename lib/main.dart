@@ -30,7 +30,8 @@ void main() async {
   Hive.deleteBoxFromDisk("userSubwayDataEntity");
   await _openHiveBoxes();
   setupLocator();
-  // Hive.box("userSettingEntity").put("setting",UserSettingsEntity(0, true, "-1", 01, false, [], true));
+  if(!Hive.box("userSettingEntity").containsKey("setting"))
+    Hive.box("userSettingEntity").put("setting",UserSettingsEntity(0, true, "-1", 01, false, [], true));
 
   DataFromAPI.initStationData();
   runApp(const FindMySubwayApp());

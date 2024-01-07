@@ -1,6 +1,6 @@
 # 설명서   
 ## 지원 플렛폼
-only Web.   <http://subway.lemon7z.xyz>   
+only Web.   <http://subway.lemon7z.com>   
 ## 기능
 ✔️ 1, 2, 3, 4, 5, 6, 7, 8, 9, 수인분당, 신분당, 경의중앙, 경춘, 경강선을 지원합니다.   
 ✔️ 자주가는 역 추가 및 실시간 위치 확인 가능   
@@ -10,9 +10,9 @@ only Web.   <http://subway.lemon7z.xyz>
 ❌ 집에서 목적지까지의 시간 측정 기능   
 ✔️ 라이트/다크 모드   
 ## 사용법
-1. 웹으로 사용 - <http://subway.lemon7z.xyz> 접속!   
-2. 안드로이드에서 사용 - <http://subway.lemon7z.xyz> 접속! (apk X)   
-3. 아이폰에서 사용 -<http://subway.lemon7z.xyz> 접속 -> 공유 버튼 -> 홈 화면에 추가
+1. 웹으로 사용 - <http://subway.lemon7z.com> 접속!   
+2. 안드로이드에서 사용 - <http://subway.lemon7z.com> 접속! (apk X)   
+3. 아이폰에서 사용 -<http://subway.lemon7z.com> 접속 -> 공유 버튼 -> 홈 화면에 추가
 <img src="https://github.com/waterlemon7z/FindMySubway/blob/gh-pages/how2use/Add%20to%20home.jpeg?raw=true" width="55%">
 
 ## 버그 리스트

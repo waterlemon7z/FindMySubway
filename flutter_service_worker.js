@@ -3,10 +3,14 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"version.json": "c965dcd32792ad11c9b00cbcf7467e50",
-"index.html": "fa4c40c2c46dbab2a4b38c1117095846",
-"/": "fa4c40c2c46dbab2a4b38c1117095846",
-"main.dart.js": "91add50950c2a1e049cd6d6f5caa1e77",
+const RESOURCES = {"CNAME.txt": "8e6bdf36c645b34d7b1c8dfd186e1a21",
+"version.json": "c965dcd32792ad11c9b00cbcf7467e50",
+"index.html": "c560f58314f63504bbeea242288a12f8",
+"/": "c560f58314f63504bbeea242288a12f8",
+"how2use/Add%20to%20home.jpeg": "90d54f38b5f21b3f68b1efba9cc32aa2",
+"how2use/README.md": "c40b664b551f528744c99a7c2898d61c",
+"how2use/How%20to%20board.jpeg": "8fdaa56fdbef71033f6f730195dae47e",
+"main.dart.js": "ea695f563b1eaa6c90186abbd6f25eaa",
 "flutter.js": "6fef97aeca90b426343ba6c5c9dc5d4a",
 "favicon.png": "c9ba23a7e158a7f53079c085409bfa6f",
 "icons/Icon-192.png": "4fa02f112172d66d7bffebe5db68e061",

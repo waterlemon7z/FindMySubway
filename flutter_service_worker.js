@@ -3,14 +3,15 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"version.json": "c965dcd32792ad11c9b00cbcf7467e50",
-"index.html": "83d05d7f5f3c05ba32b6e3c208d01c91",
-"/": "83d05d7f5f3c05ba32b6e3c208d01c91",
+const RESOURCES = {"CNAME.txt": "8e6bdf36c645b34d7b1c8dfd186e1a21",
+"version.json": "c965dcd32792ad11c9b00cbcf7467e50",
+"index.html": "797129ae52954cc746318cdc62a332d4",
+"/": "797129ae52954cc746318cdc62a332d4",
 "how2use/Add%20to%20home.jpeg": "90d54f38b5f21b3f68b1efba9cc32aa2",
-"how2use/README.md": "c22de5bb70399e1d678a20424e5621f4",
+"how2use/README.md": "c40b664b551f528744c99a7c2898d61c",
 "how2use/How%20to%20board.jpeg": "8fdaa56fdbef71033f6f730195dae47e",
 "CNAME": "8e6bdf36c645b34d7b1c8dfd186e1a21",
-"main.dart.js": "55dd65c80ff0622ccc78d56694b03da8",
+"main.dart.js": "a02481cbb2f240a1026a48137b3df01f",
 "flutter.js": "6fef97aeca90b426343ba6c5c9dc5d4a",
 "disablehttps/README.md": "d73e957c48952ca291f4980ff9cbbfa3",
 "favicon.png": "c9ba23a7e158a7f53079c085409bfa6f",
